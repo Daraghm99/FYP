@@ -1,0 +1,14 @@
+NodeOUs:
+    Enable: true
+    ClientOUIdentifier:
+        Certificate: cacerts/localhost-1020-ca-retailer.pem
+        OrganizationalUnitIdentifier: client
+    PeerOUIdentifier:
+        Certificate: cacerts/localhost-1020-ca-retailer.pem
+        OrganizationalUnitIdentifier: peer
+    AdminOUIdentifier:
+        Certificate: cacerts/localhost-1020-ca-retailer.pem
+        OrganizationalUnitIdentifier: admin
+    OrdererOUIdentifier:
+        Certificate: cacerts/localhost-1020-ca-retailer.pem
+        OrganizationalUnitIdentifier: orderer
