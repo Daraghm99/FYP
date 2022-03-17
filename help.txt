@@ -1,0 +1,4 @@
+To Start the Network:
+./network.sh up createChannel -ca -s couchdb
+
+
