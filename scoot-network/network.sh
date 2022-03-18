@@ -395,7 +395,7 @@ MAX_RETRY=5
 # default for delay between commands
 CLI_DELAY=3
 # channel name defaults to "mychannel"
-CHANNEL_NAME="scoot-channel"
+CHANNEL_NAME="mychannel"
 # chaincode name defaults to "NA"
 CC_NAME="NA"
 # chaincode path defaults to "NA"
