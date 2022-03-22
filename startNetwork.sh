@@ -8,4 +8,4 @@ pushd scoot-network/
 ./network.sh up createChannel -ca -s couchdb
 
 # Deploy the chaincode to each peer node on the network
-./network.sh deployCC -ccn scootSmartContract -ccl javascript -ccp ../chaincode/
+./network.sh deployCC -ccn fabcar -ccl javascript -ccp ../chaincode/
