@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 
@@ -19,4 +21,4 @@ app.get('/', (req, res) => {
     res.send('Hello');
 });
 
-app.listen(6000);
+app.listen(process.env.PORT);

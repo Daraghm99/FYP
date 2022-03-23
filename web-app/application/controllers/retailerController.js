@@ -3,23 +3,116 @@ import fs from 'fs';
 import path from 'path';
 
 // load the network configuration
-const ccpPath = path.join(process.cwd(), './connection/connection-org2.json');
-console.log(ccpPath);
+const ccpPath = process.env.ORG2_CONNECTION;
 const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
 // Create a new file system based wallet for managing identities.
-const walletPath = path.join(process.cwd(), 'wallet');
+const walletPath = process.env.WALLET_PATH;
 const wallet = await Wallets.newFileSystemWallet(walletPath);
-console.log(`Wallet path: ${walletPath}`);
 
 export const registerScooter = async (req, res) => {
+
+    try {
+        // Check to see if we've already enrolled the user.
+        const identity = await wallet.get('appUser');
+        if (!identity) {
+            console.log('An identity for this user does not exist in the wallet');
+            return;
+        }
+
+        // Create a new gateway for connecting to the peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
+
+        // Get the contract from the network.
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+
+        let result = await contract.submitTransaction('createAsset', req.body.serialNumber, req.body.manufacturer, req.body.model, req.body.owner, req.body.retailer);
+        
+        console.log('Transaction has been submitted');
+        if (`${result}` !== '') {
+            console.log(`*** Request Asset Registration Result: ${prettyJSONString(result.toString())}`);
+        }
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        process.exit(1);
+    }
 
 }
 
 export const getMyRequests = async (req, res) => {
+
+    try {
+        // Check to see if we've already enrolled the user.
+        const identity = await wallet.get('appUser');
+        if (!identity) {
+            console.log('An identity for the user "appUser" does not exist in the wallet');
+            return;
+        }
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
+
+        // Get the contract from the network.
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+
+        const result = await contract.evaluateTransaction('queryMyRequests', req.body.retailer);
+	    
+        console.log('Transaction has been evaluated');
+        console.log(`*** Query My Assets Result: ${prettyJSONString(result.toString())}`);
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
     
 }
 
 export const approveRequest = async (req, res) => {
+
+    try {
+        // Check to see if we've already enrolled the user.
+        const identity = await wallet.get('appUser');
+        if (!identity) {
+            console.log('An identity for the user "appUser" does not exist in the wallet');
+            return;
+        }
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
+
+        // Get the contract from the network.
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+
+        await contract.submitTransaction('approveAssetRegistration', req.body.serialNumber);
+	    console.log('Transaction has been submitted');
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
     
 }
