@@ -9,3 +9,9 @@ pushd scoot-network/
 
 # Deploy the chaincode to each peer node on the network
 ./network.sh deployCC -ccn fabcar -ccl javascript -ccp ../chaincode/
+
+# Copy the connection JSON files to the application layer of the web application
+cp -r /home/daragh/Documents/FYP/scoot-network/organizations/peerOrganizations/org1.example.com/connection-org1.json /home/daragh/Documents/FYP/web-app/application/connection/
+cp -r /home/daragh/Documents/FYP/scoot-network/organizations/peerOrganizations/org2.example.com/connection-org2.json /home/daragh/Documents/FYP/web-app/application/connection/
+cp -r /home/daragh/Documents/FYP/scoot-network/organizations/peerOrganizations/org3.example.com/connection-org3.json /home/daragh/Documents/FYP/web-app/application/connection/
+cp -r /home/daragh/Documents/FYP/scoot-network/organizations/peerOrganizations/org4.example.com/connection-org4.json /home/daragh/Documents/FYP/web-app/application/connection/
