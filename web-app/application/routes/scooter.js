@@ -1,4 +1,6 @@
 import express from 'express';
+import verify from '../utils/verifyToken.js';
+
 import { createScooterRequest, getMyScooters, transferScooter, markScooterStolen, getScooterStatus } from '../controllers/ownerController.js';
 import { registerScooter, getMyRequests, approveRequest } from '../controllers/retailerController.js';
 
@@ -6,11 +8,11 @@ import { registerScooter, getMyRequests, approveRequest } from '../controllers/r
 const router = express.Router();
 
 // E-Scooter Owners
-router.post('/CreateAssetRequest', createScooterRequest);
-router.get('/GetMyAssets', getMyScooters);
-router.put('/TransferAsset', transferScooter);
-router.put('/MarkAsStolen', markScooterStolen);
-router.post('/GetAssetStatus', getScooterStatus);
+router.post('/CreateAssetRequest', verify, createScooterRequest);
+router.get('/GetMyAssets', verify, getMyScooters);
+router.put('/TransferAsset', verify, transferScooter);
+router.put('/MarkAsStolen', verify, markScooterStolen);
+router.post('/GetAssetStatus', verify, getScooterStatus);
 
 // Retailers
 router.post('/RegisterAsset', registerScooter);
@@ -20,7 +22,5 @@ router.put('/ApproveRequest', approveRequest);
 // Servicers
 
 // Law Enforcers
-
-// Users
 
 export default router;

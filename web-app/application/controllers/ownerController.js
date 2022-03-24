@@ -17,7 +17,7 @@ export const createScooterRequest = async (req, res) => {
 
     try {
         // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('appUser');
+        const identity = await wallet.get(req.user.ID);
         if (!identity) {
             console.log('An identity for this user does not exist in the wallet');
             return;
@@ -25,7 +25,7 @@ export const createScooterRequest = async (req, res) => {
 
         // Create a new gateway for connecting to the peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
@@ -33,7 +33,7 @@ export const createScooterRequest = async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
-        let result = await contract.submitTransaction('requestAssetRegistration', req.body.serialNumber, req.body.manufacturer, req.body.model, req.body.owner, req.body.retailer);
+        let result = await contract.submitTransaction('requestAssetRegistration', req.body.serialNumber, req.body.manufacturer, req.body.model, req.user.ID, req.body.retailer);
         
         console.log('Transaction has been submitted');
         if (`${result}` !== '') {
@@ -47,7 +47,6 @@ export const createScooterRequest = async (req, res) => {
         console.error(`Failed to submit transaction: ${error}`);
         process.exit(1);
     }
-
 }
 
 export const getMyScooters = async (req, res) => {
@@ -70,7 +69,8 @@ export const getMyScooters = async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
-        const result = await contract.evaluateTransaction('queryMyAssets', req.body.owner);
+        console.log(req.user.ID);
+        const result = await contract.evaluateTransaction('queryMyAssets', req.user.ID);
 	    
         console.log('Transaction has been evaluated');
         console.log(`*** Query My Assets Result: ${prettyJSONString(result.toString())}`);

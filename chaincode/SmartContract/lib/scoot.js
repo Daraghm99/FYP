@@ -1,11 +1,10 @@
 
-'use strict';
 
 const stringify  = require('json-stringify-deterministic');
 const sortKeysRecursive  = require('sort-keys-recursive');
 const { Contract } = require('fabric-contract-api');
 
-class FabCar extends Contract {
+class Scoot extends Contract {
 
     async requestAssetRegistration(ctx, serialNumber, manufacturer, model, owner, retailer){
 		
@@ -221,8 +220,53 @@ class FabCar extends Contract {
         const assetJSON = await ctx.stub.getState(serialNumber);
         return assetJSON && assetJSON.length > 0;
     }
+    
+    async createUser(ctx, email, name, password, role){
+		
+        console.info('============= START : User Registration ===========');
+
+		// Check if the E-Scooter is already present on the ledger
+		// Will ensure E-Scooter is not present in either a pending or registered status 
+        const exists = await this.UserExists(ctx, email);
+        if (exists) {
+            throw new Error(`The asset ${serialNumber} already exists`);
+        }
+       
+        const user = {
+        	ID: email, 
+        	Name: name, 
+        	Password: password, 
+        	Role: role,
+        };
+        
+        //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
+        await ctx.stub.putState(email, Buffer.from(stringify(sortKeysRecursive(user))));
+
+        console.info('============= END : User Registration ===========');
+
+        return JSON.stringify(user);
+	}
+
+    async queryUser(ctx, email){
+        
+        console.info('============= START : Query User ===========');
+
+        const assetJSON = await ctx.stub.getState(email); // get the asset from chaincode state
+        if (!assetJSON || assetJSON.length === 0) {
+            throw new Error(`The asset ${email} does not exist`);
+        }
+
+        console.info('============= END : Query User ===========');
+
+        return assetJSON.toString();
+    }
+
+    async UserExists(ctx, id) {
+        const assetJSON = await ctx.stub.getState(id);
+        return assetJSON && assetJSON.length > 0;
+    }
 
 
 }
 
-module.exports = FabCar;
+module.exports = Scoot;

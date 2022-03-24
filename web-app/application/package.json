@@ -16,7 +16,8 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "fabric-ca-client": "^2.2.4",
-    "fabric-network": "^2.2.4"
+    "fabric-network": "^2.2.4",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
