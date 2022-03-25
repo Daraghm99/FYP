@@ -16,23 +16,17 @@ function prettyJSONString(inputString) {
 export const createScooterRequest = async (req, res) => {
 
     try {
-        // Check to see if we've already enrolled the user.
-        const identity = await wallet.get(req.user.ID);
-        if (!identity) {
-            console.log('An identity for this user does not exist in the wallet');
-            return;
-        }
 
         // Create a new gateway for connecting to the peer node.
         const gateway = new Gateway();
         await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
+         // Get the contract from the network.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
-
-        // Get the contract from the network.
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
+        
         let result = await contract.submitTransaction('requestAssetRegistration', req.body.serialNumber, req.body.manufacturer, req.body.model, req.user.ID, req.body.retailer);
         
         console.log('Transaction has been submitted');

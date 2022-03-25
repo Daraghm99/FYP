@@ -2,12 +2,15 @@ import 'dotenv/config';
 
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import userRoutes from './routes/user.js';
 import scooterRoutes from './routes/scooter.js';
 
 // Initialize Express
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 

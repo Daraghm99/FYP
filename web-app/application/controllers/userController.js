@@ -60,34 +60,27 @@ export const createUser = async (req, res) => {
 export const getUser = async (req, res) => {
 
     try {
-        // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('appUser');
-        if (!identity) {
-            console.log('An identity for the user "appUser" does not exist in the wallet');
-            return;
-        }
 
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
         await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
 
-        // Get the network (channel) our contract is deployed to.
+        // Get the Channel the Contract is deployed on using the channel name.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
-
-        // Get the contract from the network.
-        const contract = network.getContract('scoot');
-
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+        console.log(req.body.email);
+        // Check if a user exists with the email (ID) provided, Output the result to the api
         const result = await contract.evaluateTransaction('queryUser', req.body.email);
-	    
-        console.log('Transaction has been evaluated');
-        console.log(`User: ${prettyJSONString(result.toString())}`);
-        const user = JSON.parse(result.toString());
+        // Retrieve the result object and parse the JSON data
+	    const user = JSON.parse(result.toString());
 
+        // Authenticate the user
         if(req.body.email == user.ID && req.body.password === user.Password){
             console.log('Logged In');
             
             // Create and assign a JWT token
-            const token = jwt.sign({ID: user.ID, Role: user.Role}, process.env.TOKEN_SECRET);
+            // JWT Token will contain the email, name, and role of the user and will expire after 15 minutes
+            const token = jwt.sign({ID: user.ID, Name: user.Name, Role: user.Role}, process.env.TOKEN_SECRET, { expiresIn: "15m" });
             res.header('authToken', token).send(token);
         } else {
             return res.status(400).send('Credentials Incorrect');
