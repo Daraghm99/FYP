@@ -1,28 +1,17 @@
 import { Gateway, Wallets } from 'fabric-network';
 import fs from 'fs';
-import path from 'path';
 
-// load the network configuration
-const ccpPath = process.env.ORG2_CONNECTION;
-const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
-
-// Create a new file system based wallet for managing identities.
-const walletPath = process.env.WALLET_PATH;
-const wallet = await Wallets.newFileSystemWallet(walletPath);
+// load the network configuration and Wallet configuration
+const ccp = JSON.parse(fs.readFileSync(process.env.ORG2_CONNECTION, 'utf8'));
+const wallet = await Wallets.newFileSystemWallet(process.env.WALLET_PATH);
 
 export const registerScooter = async (req, res) => {
 
     try {
-        // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('appUser');
-        if (!identity) {
-            console.log('An identity for this user does not exist in the wallet');
-            return;
-        }
 
         // Create a new gateway for connecting to the peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
@@ -30,13 +19,14 @@ export const registerScooter = async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
-        let result = await contract.submitTransaction('createAsset', req.body.serialNumber, req.body.manufacturer, req.body.model, req.body.owner, req.body.retailer);
+        let result = await contract.submitTransaction('createAsset', req.body.serialNumber, req.body.manufacturer, req.body.model, req.body.owner, req.user.Name);
         
-        console.log('Transaction has been submitted');
         if (`${result}` !== '') {
-            console.log(`*** Request Asset Registration Result: ${prettyJSONString(result.toString())}`);
+            res.send(JSON.parse(result.toString())).status(200);
+        } else {
+            res.send('Unable to Create Request').status(400);
         }
-
+        
         // Disconnect from the gateway.
         await gateway.disconnect();
 
@@ -50,16 +40,10 @@ export const registerScooter = async (req, res) => {
 export const getMyRequests = async (req, res) => {
 
     try {
-        // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('appUser');
-        if (!identity) {
-            console.log('An identity for the user "appUser" does not exist in the wallet');
-            return;
-        }
-
+        
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
@@ -67,10 +51,10 @@ export const getMyRequests = async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
-        const result = await contract.evaluateTransaction('queryMyRequests', req.body.retailer);
+        const result = await contract.evaluateTransaction('queryMyRequests', req.user.Name);
 	    
         console.log('Transaction has been evaluated');
-        console.log(`*** Query My Assets Result: ${prettyJSONString(result.toString())}`);
+        res.send(JSON.parse(result.toString())).status(200);
 
         // Disconnect from the gateway.
         await gateway.disconnect();
@@ -86,16 +70,10 @@ export const getMyRequests = async (req, res) => {
 export const approveRequest = async (req, res) => {
 
     try {
-        // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('appUser');
-        if (!identity) {
-            console.log('An identity for the user "appUser" does not exist in the wallet');
-            return;
-        }
 
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
@@ -105,6 +83,7 @@ export const approveRequest = async (req, res) => {
 
         await contract.submitTransaction('approveAssetRegistration', req.body.serialNumber);
 	    console.log('Transaction has been submitted');
+        res.send('Asset Registered').status(200);
 
         // Disconnect from the gateway.
         await gateway.disconnect();

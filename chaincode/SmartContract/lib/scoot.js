@@ -23,8 +23,8 @@ class Scoot extends Contract {
         	Model: model, 
         	Owner: owner,
         	Retailer: retailer,
-        	Status: 'pending',
-        	State: 'active',
+        	Status: 'Pending',
+        	State: 'Active',
         };
         
         //we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
@@ -52,7 +52,7 @@ class Scoot extends Contract {
         	Model: model, 
         	Owner: owner,
         	Retailer: retailer,
-        	Status: 'Pending',
+        	Status: 'Registered',
         	State: 'Active',
         };
         
@@ -92,7 +92,7 @@ class Scoot extends Contract {
         return JSON.stringify(allResults);
     }
     
-    async queryMyRequests(ctx, owner) {
+    async queryMyRequests(ctx, retailer) {
 
         console.info('============= START : Query Owner Assets ===========');
 
@@ -207,6 +207,33 @@ class Scoot extends Contract {
         return assetState.toString();
     	
     }
+    
+    async queryStolenScooters(ctx) {
+
+        console.info('============= START : Query Stolen Scooters ===========');
+
+        const startKey = '';
+        const endKey = '';
+        const allResults = [];
+        for await (const {key, value} of ctx.stub.getStateByRange(startKey, endKey)) {
+            const strValue = Buffer.from(value).toString('utf8');
+            let record;
+            try {
+                record = JSON.parse(strValue);
+            } catch (err) {
+                console.log(err);
+                record = strValue;
+            }
+            if(record.State === 'Stolen'){
+                allResults.push({ Key: key, Record: record });
+            }
+        }
+        console.info(allResults);
+
+        console.info('============= END : Query Stolen Scooters ===========');
+
+        return JSON.stringify(allResults);
+    }
 
 	async ReadAsset(ctx, serialNumber) {
         const assetJSON = await ctx.stub.getState(serialNumber); // get the asset from chaincode state
@@ -229,7 +256,7 @@ class Scoot extends Contract {
 		// Will ensure E-Scooter is not present in either a pending or registered status 
         const exists = await this.UserExists(ctx, email);
         if (exists) {
-            throw new Error(`The asset ${serialNumber} already exists`);
+            throw new Error(`The asset ${email} already exists`);
         }
        
         const user = {
@@ -261,8 +288,8 @@ class Scoot extends Contract {
         return assetJSON.toString();
     }
 
-    async UserExists(ctx, id) {
-        const assetJSON = await ctx.stub.getState(id);
+    async UserExists(ctx, ID) {
+        const assetJSON = await ctx.stub.getState(ID);
         return assetJSON && assetJSON.length > 0;
     }
 

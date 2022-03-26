@@ -6,6 +6,7 @@ import { resolve, join } from 'path';
 
 export const registerUser = async (id) => {
     try {
+        console.log('In Register User');
         // load the network configuration
         const ccpPath = join(process.cwd(), './connection/connection-org1.json');
         const ccp = JSON.parse(readFileSync(ccpPath, 'utf8'));
@@ -15,9 +16,7 @@ export const registerUser = async (id) => {
         const ca = new FabricCAServices(caURL);
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = join(process.cwd(), 'wallet');
-        const wallet = await Wallets.newFileSystemWallet(walletPath);
-        console.log(`Wallet path: ${walletPath}`);
+        const wallet = await Wallets.newFileSystemWallet(process.env.WALLET_PATH);
 
         // Check to see if we've already enrolled the user.
         const userIdentity = await wallet.get(id);
