@@ -2,6 +2,7 @@
 import './App.css';
 import axios from 'axios';
 import { useState } from 'react';
+import jwt from 'jwt-decode';
 
 function App() {
 
@@ -10,10 +11,15 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('in');
+    
     try {
       const res = await axios.post("/user/Login", {email, password})
-      console.log(res.data);
+      console.log(res.data)
+      const token = res.data;
+      console.log(token);
+      const user = jwt(token);
+      console.log(user);
+      localStorage.setItem('authToken', token);
     } catch (err) {
       console.log(err);
     }
