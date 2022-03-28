@@ -86,7 +86,7 @@ export const getUser = async (req, res) => {
                 res.status(401).json({ message: 'Invalid Password' });
             }
         } else {
-            res.status(401).json({ message: 'Invalid Email' });
+            res.status(403).json({ message: 'Invalid Email' });
         }
 
         // Disconnect from the gateway.
