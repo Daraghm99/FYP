@@ -21,10 +21,12 @@ export const createScooterRequest = async (req, res) => {
         
         let result = await contract.submitTransaction('requestAssetRegistration', req.body.serialNumber, req.body.manufacturer, req.body.model, req.user.ID, req.body.retailer);
         
+        console.log('Transaction Submitted');
+        
         if (`${result}` !== '') {
-            res.send(JSON.parse(result.toString())).status(200);
+            res.send(JSON.parse(result)).status(200);
         } else {
-            res.send('Unable to Create Request').status(400);
+            res.send('Unable to Create Request').status(401);
         }
 
         // Disconnect from the gateway.
