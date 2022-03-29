@@ -13,13 +13,12 @@ const StolenButton = ({ scooter }) => {
     const result = await confirm('Are You sure you Wish to Mark this Asset as Stolen');
     if(result){
       try {
-        const response = await axios.put('/scooter/MarkAsStolen', JSON.stringify({ serialNumber }),
+        await axios.put('/scooter/MarkAsStolen', JSON.stringify({ serialNumber }),
         {
           headers: { 	'Content-Type': 'application/json',
                       'authToken': token
           }
         });
-        console.log(response);
       } catch (err) {
         console.log(err);
       }
