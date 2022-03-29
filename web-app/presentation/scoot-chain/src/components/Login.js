@@ -51,7 +51,7 @@ const Login = () => {
 			if(role === 'owner'){
 				navigate('/createRequest');
 			} else if(role === 'retailer'){
-				navigate('/retailer');
+				navigate('/registerScooter');
 			} else if(role === 'law'){
 				navigate('/law');
 			}

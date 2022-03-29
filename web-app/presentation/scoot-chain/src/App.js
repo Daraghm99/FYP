@@ -7,6 +7,8 @@ import ViewMyScooters from './pages/owner/ViewMyScooters';
 import ViewScooterHistory from './pages/owner/ViewScooterHistory';
 
 // Retailer Pages
+import RegisterScooter from './pages/retailer/RegisterScooter';
+import ViewRequests from './pages/retailer/ViewRequests';
 
 import RequireAuth from './components/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
@@ -28,7 +30,8 @@ function App() {
 
           {/* Routes Available to Users with a Role of Retailer */}
           <Route element={<RequireAuth allowedRole={'retailer'} />}>
-            {/*<Route path='retailer' element={<Retailer />} />*/}
+            <Route path='registerScooter' element={<RegisterScooter />} />
+            <Route path='viewRequests' element={<ViewRequests />} />
           </Route>
             
           {/* Routes Available to Users with a Role of Law */}

@@ -22,7 +22,6 @@ const ViewMyScooters = () => {
           }
         });
         setScooters(response.data);
-        console.log(response.data.Object);
       } catch(err) {
         console.log(err);
       }

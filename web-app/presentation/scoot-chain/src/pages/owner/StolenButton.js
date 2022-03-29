@@ -8,7 +8,6 @@ const StolenButton = ({ scooter }) => {
     event.preventDefault();
 
     const token  = JSON.parse(localStorage.getItem('authToken'));
-		console.log(token); 
 
     // Ask The user if they are sure they wish to proceed
     const result = await confirm('Are You sure you Wish to Mark this Asset as Stolen');
