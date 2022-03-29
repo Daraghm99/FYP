@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer>
-        <p>Copyright &copy; 2022</p>
+    <footer className='Footer'>
+        <h4>Copyright &copy; 2022</h4>
     </footer>
   )
 }

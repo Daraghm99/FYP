@@ -80,7 +80,7 @@ export const getUser = async (req, res) => {
             if(validPassword){
                 // Create and assign a JWT token
                 // JWT Token will contain the email, name, and role of the user and will expire after 30 minutes
-                const token = jwt.sign({ID: user.ID, Name: user.Name, Role: user.Role}, process.env.TOKEN_SECRET, { expiresIn: "30m" });
+                const token = jwt.sign({ID: user.ID, Name: user.Name, Role: user.Role}, process.env.TOKEN_SECRET);
                 res.header('authToken', token).send(token);
             } else {
                 res.status(401).json({ message: 'Invalid Password' });

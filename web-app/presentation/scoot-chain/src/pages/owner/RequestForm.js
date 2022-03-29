@@ -11,10 +11,9 @@ const RequestForm = () => {
 
 
 	const handleRequestSubmit = async (e) => {
-
 		e.preventDefault();
 		const token  = JSON.parse(localStorage.getItem('authToken'));
-		console.log(token); 
+
 		try {
 			const response = await axios.post('/scooter/CreateAssetRequest', JSON.stringify({ serialNumber, manufacturer, model, retailer }),
 			{
@@ -30,17 +29,18 @@ const RequestForm = () => {
 	}
 
   return (
-    <div id='request-container'>
-        <form id='request-form' onSubmit={handleRequestSubmit}>
-					<label htmlFor='serialNumber'>SerialNumber:</label>
-					<input 
-						type='text' 
-						id='serialNumber' 
-						placeholder='Enter Serial Number' 
-						onChange={(e) => setSerialNumber(e.target.value)}
-						value={serialNumber} 
-						required />
-					<label htmlFor='maufacturer'>Manufacturer:</label>
+    <form className='requestForm' onSubmit={handleRequestSubmit}>
+			<h1>E-Scooter Request Registration Form</h1>
+			<p>Enter details relating to your E-Scooter!</p>
+			<label htmlFor='serialNumber'>SerialNumber:</label>
+				<input 
+					type='text' 
+					id='serialNumber' 
+					placeholder='Enter Serial Number' 
+					onChange={(e) => setSerialNumber(e.target.value)}
+					value={serialNumber} 
+					required />
+				<label htmlFor='maufacturer'>Manufacturer:</label>
 					<input 
 						type='text' 
 						id='manufacturer' 
@@ -48,7 +48,7 @@ const RequestForm = () => {
 						onChange={(e) => setManufacturer(e.target.value)}
 						value={manufacturer} 
 						required />
-					<label htmlFor='model'>Model:</label>
+				<label htmlFor='model'>Model:</label>
 					<input 
 						type='text' 
 						id='model' 
@@ -70,7 +70,6 @@ const RequestForm = () => {
 						Submit	
 					</button>
         </form>
-    </div>
   )
 }
 

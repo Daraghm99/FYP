@@ -1,8 +1,15 @@
-import React from 'react'
+import React from 'react';
+import OwnerNav from './OwnerNav';
+import OwnerSearch from './OwnerSearch';
+import Footer from '../../components/Footer';
 
 const ViewScooterHistory = () => {
   return (
-    <div>ViewScooterHistory</div>
+    <>
+      <OwnerNav />
+      <OwnerSearch />
+      <Footer />
+    </>
   )
 }
 

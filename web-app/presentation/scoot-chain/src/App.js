@@ -6,15 +6,18 @@ import CreateRequest from './pages/owner/CreateRequest';
 import ViewMyScooters from './pages/owner/ViewMyScooters';
 import ViewScooterHistory from './pages/owner/ViewScooterHistory';
 
+// Retailer Pages
+
 import RequireAuth from './components/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-   
+    <div className='App'>
+      
       <Routes>
           {/* Public Routes Available to every User*/}
-          <Route path='login' element={<Login />} />
+          <Route path='/' element={<Login />} />
 
           {/* Routes Available to users with a role of owner */}
           <Route element={<RequireAuth allowedRole={'owner'} />}>
@@ -32,7 +35,8 @@ function App() {
           <Route element={<RequireAuth allowedRole={'law'} />}>
             {/*<Route path='law' element={<Law />} />*/}
           </Route>
-      </Routes>      
+      </Routes>  
+    </div>    
     
   );
 }
