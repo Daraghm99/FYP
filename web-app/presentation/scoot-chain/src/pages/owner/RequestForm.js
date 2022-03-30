@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 import axios from '../../api/axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RequestForm = () => {
 
@@ -17,19 +19,28 @@ const RequestForm = () => {
 		try {
 			const response = await axios.post('/scooter/CreateAssetRequest', JSON.stringify({ serialNumber, manufacturer, model, retailer }),
 			{
-				headers: { 	'Content-Type': 'application/json',
-									  'authToken': token
+				headers: 
+				{ 	
+					'Content-Type': 'application/json',
+					'authToken': token
 				}
 			});
-
-		console.log(response);
+			console.log(response);
+			toast.success('E-Scooter Requested Created');
+			setSerialNumber('');
+			setManufacturer('');
+			setModel('');
+			setRetailer('');
 		} catch(err){
-			console.log(err);
+			if(err.response.status === 409){
+				toast.error('E-Scooter Already Registered!')
+			}
 		}
 	}
 
   return (
     <form className='requestForm' onSubmit={handleRequestSubmit}>
+			<ToastContainer />
 			<h1>E-Scooter Request Registration Form</h1>
 			<p>Enter details relating to your E-Scooter!</p>
 			<label htmlFor='serialNumber'>SerialNumber:</label>

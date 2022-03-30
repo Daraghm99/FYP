@@ -98,3 +98,60 @@ export const getUser = async (req, res) => {
         process.exit(1);
     }
 }
+
+export const getUsers = async (req, res) => {
+
+    try {
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
+
+        // Get the contract from the network.
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+
+        const result = await contract.evaluateTransaction('getAllUsers');
+	    
+        console.log('Transaction has been evaluated');
+        res.send(JSON.parse(result.toString())).status(200);
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
+
+}
+
+export const removeParticipant = async (req, res) => {
+
+    try {
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: req.user.ID, discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
+
+        // Get the contract from the network.
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+
+        await contract.submitTransaction('removeParticipant', req.body.ID);
+	    res.send('Particpant Removed from the Network').status(200);
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
+}

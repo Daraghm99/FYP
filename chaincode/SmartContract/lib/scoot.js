@@ -14,7 +14,8 @@ class Scoot extends Contract {
 		// Will ensure E-Scooter is not present in either a pending or registered status 
         const exists = await this.AssetExists(ctx, serialNumber);
         if (exists) {
-            throw new Error(`The asset ${serialNumber} already exists`);
+            //throw new Error(`The asset ${serialNumber} already exists`);
+            return JSON.stringify('Asset Exists');
         }
        
         const scooter = {
@@ -185,6 +186,12 @@ class Scoot extends Contract {
     async transferAsset(ctx, serialNumber, newOwner){
         
         console.info('============= START : Transfer Asset Ownership ===========');
+        
+        // Check if user exists
+        const exists = await this.UserExists(ctx, newOwner);
+        if(!exists){
+        	return JSON.stringify('User Error');
+        }
 
         const assetString = await this.ReadAsset(ctx, serialNumber);
         const asset = JSON.parse(assetString);
@@ -358,6 +365,42 @@ class Scoot extends Contract {
 
         return assetJSON.toString();
     }
+    
+    async getAllUsers(ctx){
+		
+		console.info('============= START : Get All Users ===========');
+
+        const startKey = '';
+        const endKey = '';
+        const allResults = [];
+        for await (const {key, value} of ctx.stub.getStateByRange(startKey, endKey)) {
+            const strValue = Buffer.from(value).toString('utf8');
+            let record;
+            try {
+                record = JSON.parse(strValue);
+            } catch (err) {
+                console.log(err);
+                record = strValue;
+            }
+            if(record.hasOwnProperty('ID') && record.Role !== 'registrar'){
+                allResults.push({ Key: key, Record: record });
+            }
+        }
+        console.info(allResults);
+
+        console.info('============= END : Get All Users ===========');
+
+        return JSON.stringify(allResults);
+	}
+	
+	async removeParticipant(ctx, ID){
+		
+		const exists = await this.UserExists(ctx, ID);
+        if (!exists) {
+            throw new Error(`The asset ${ID} does not exist`);
+        }
+        return ctx.stub.deleteState(ID);
+	}
 
     async UserExists(ctx, ID) {
         const assetJSON = await ctx.stub.getState(ID);

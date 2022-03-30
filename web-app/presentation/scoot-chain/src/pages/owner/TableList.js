@@ -1,7 +1,7 @@
 import React from 'react'
 import TableItem from './TableItem';
 
-const ItemList = ({ scooters }) => {
+const ItemList = ({ scooters, handleTransferClick }) => {
   return (
     <div className='table-container'>
       <h1>Your E-scooters</h1>
@@ -22,7 +22,7 @@ const ItemList = ({ scooters }) => {
         </thead>
 				<tbody>
 					{scooters.map(scooter => (
-            <TableItem key={scooter.Key} scooter={scooter} />
+            <TableItem key={scooter.Key} scooter={scooter} handleTransferClick={handleTransferClick}/>
         	))}
 				</tbody>
       </table>

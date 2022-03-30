@@ -16,6 +16,10 @@ import ViewStolen from './pages/law/ViewStolen';
 // Servicer Pages
 import CreateService from './pages/servicer/CreateService';
 
+// Registrar Pages
+import ViewParticipants from './pages/registrar/ViewParticipants';
+import CreateUser from './pages/registrar/CreateUser';
+
 import RequireAuth from './components/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 
@@ -48,6 +52,12 @@ function App() {
           {/* Routes Available to Users with a Role of Servicer */}
           <Route element={<RequireAuth allowedRole={'servicer'} />}>
             <Route path='createService' element={<CreateService />} />
+          </Route>
+
+          {/* Routes Available to Users with a Role of Registrar */}
+          <Route element={<RequireAuth allowedRole={'registrar'} />}>
+            <Route path='createUser' element={<CreateUser />} />
+            <Route path='viewParticipants' element={<ViewParticipants />} />
           </Route>
 
       </Routes>  

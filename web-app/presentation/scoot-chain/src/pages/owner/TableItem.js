@@ -3,7 +3,7 @@ import TransferButton from './TransferButton';
 import StolenButton from './StolenButton';
 
 
-const Item = ({ scooter }) => {
+const Item = ({ scooter, handleTransferClick }) => {
 
   return (
     <tr>
@@ -13,7 +13,7 @@ const Item = ({ scooter }) => {
         <td>{scooter.Record.Retailer}</td>
         <td>{scooter.Record.Status}</td>
         <td>{scooter.Record.State}</td>
-        <td><TransferButton scooter={scooter} /></td>
+        <td><TransferButton scooter={scooter} handleTransferClick={handleTransferClick}/></td>
         <td><StolenButton scooter={scooter} /></td>
     </tr>
   )

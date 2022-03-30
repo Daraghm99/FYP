@@ -23,10 +23,11 @@ export const createScooterRequest = async (req, res) => {
         
         console.log('Transaction Submitted');
         
-        if (`${result}` !== '') {
-            res.send(JSON.parse(result)).status(200);
+        console.log(JSON.parse(result));
+        if (JSON.parse(result) === 'Asset Exists') {
+            res.status(409).send('Asset Exists on the Network');
         } else {
-            res.send('Unable to Create Request').status(401);
+            res.send(JSON.parse(result)).status(200);
         }
 
         // Disconnect from the gateway.
@@ -83,8 +84,13 @@ export const transferScooter = async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
-        await contract.submitTransaction('transferAsset', req.body.serialNumber, req.body.newOwner);
-        res.send('Asset Transferred').status(200);
+        const result = await contract.submitTransaction('transferAsset', req.body.serialNumber, req.body.newOwner);
+        
+        if(JSON.parse(result) === 'User Error'){
+            res.status(413).send('User Not Found');
+        } else {
+            res.send('Asset Transferred').status(200);
+        }
 
         // Disconnect from the gateway.
         await gateway.disconnect();

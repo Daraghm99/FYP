@@ -1,0 +1,15 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+const RegistrarNav = () => {
+  return (
+    <div className='Nav'>
+        <ul>
+            <li><Link to='/createUser'>Create User</Link></li>
+            <li><Link to='/viewParticipants'>View Participants</Link></li>
+        </ul>
+    </div>
+  )
+}
+
+export default RegistrarNav

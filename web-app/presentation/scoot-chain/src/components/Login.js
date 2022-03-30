@@ -56,6 +56,8 @@ const Login = () => {
 				navigate('/viewStolen');
 			} else if(role === 'servicer'){
 				navigate('/createService');
+			} else if(role === 'registrar'){
+				navigate('/createUser');
 			}
 			// Reset the Login form with empty fields
 			setEmail('');
