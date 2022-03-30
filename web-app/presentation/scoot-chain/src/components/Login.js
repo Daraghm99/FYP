@@ -53,7 +53,9 @@ const Login = () => {
 			} else if(role === 'retailer'){
 				navigate('/registerScooter');
 			} else if(role === 'law'){
-				navigate('/law');
+				navigate('/viewStolen');
+			} else if(role === 'servicer'){
+				navigate('/createService');
 			}
 			// Reset the Login form with empty fields
 			setEmail('');

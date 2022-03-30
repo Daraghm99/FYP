@@ -1,6 +1,6 @@
-import React from 'react'
-import ApproveButton from './ApproveButton'
-import StolenButton from '../owner/StolenButton'
+import React from 'react';
+import ApproveButton from './ApproveButton';
+import RejectButton from './RejectButton';
 
 const RequestItem = ({ request }) => {
   return (
@@ -11,7 +11,7 @@ const RequestItem = ({ request }) => {
         <td>{request.Record.Owner}</td>
         <td>{request.Record.Status}</td>
         <td><ApproveButton request={request} /></td>
-        <td><StolenButton request={request} /></td>
+        <td><RejectButton request={request} /></td>
     </tr>
   )
 }

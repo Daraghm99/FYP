@@ -10,6 +10,12 @@ import ViewScooterHistory from './pages/owner/ViewScooterHistory';
 import RegisterScooter from './pages/retailer/RegisterScooter';
 import ViewRequests from './pages/retailer/ViewRequests';
 
+// Law Enforcement Pages
+import ViewStolen from './pages/law/ViewStolen';
+
+// Servicer Pages
+import CreateService from './pages/servicer/CreateService';
+
 import RequireAuth from './components/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 
@@ -36,8 +42,14 @@ function App() {
             
           {/* Routes Available to Users with a Role of Law */}
           <Route element={<RequireAuth allowedRole={'law'} />}>
-            {/*<Route path='law' element={<Law />} />*/}
+            <Route path='viewStolen' element={<ViewStolen />} />
           </Route>
+
+          {/* Routes Available to Users with a Role of Servicer */}
+          <Route element={<RequireAuth allowedRole={'servicer'} />}>
+            <Route path='createService' element={<CreateService />} />
+          </Route>
+
       </Routes>  
     </div>    
     

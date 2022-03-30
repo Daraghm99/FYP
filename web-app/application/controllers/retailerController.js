@@ -95,3 +95,32 @@ export const approveRequest = async (req, res) => {
     }
     
 }
+
+export const rejectRequest = async (req, res) => {
+
+    try {
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: 'retailer@gmail.com', discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
+
+        // Get the contract from the network.
+        const contract = network.getContract(process.env.SCOOT_CONTRACT);
+
+        await contract.submitTransaction('rejectAssetRegistration', req.body.serialNumber);
+	    console.log('Transaction has been submitted');
+        res.send('Asset Registration Rejected').status(200);
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
+    
+}

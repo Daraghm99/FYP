@@ -41,3 +41,16 @@ export const checkLaw = (req, res, next) => {
     }
 }
 
+export const checkServicer = (req, res, next) => {
+    try{
+        if (req.user.Role != 'servicer'){
+            res.status(403).send('Permissions error');
+        } else {
+            next();
+        }
+        
+    }catch(err){
+        res.status(400).send('invalid Permissions');
+    }
+}
+

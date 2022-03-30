@@ -21,7 +21,7 @@ const ApproveButton = ({ request }) => {
         });
 				alert('E-Scooter Registered');
 			}catch(err) {
-
+        console.log(err);
 			}
 		}
 

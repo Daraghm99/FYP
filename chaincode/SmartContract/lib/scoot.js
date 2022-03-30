@@ -63,6 +63,69 @@ class Scoot extends Contract {
 
         return JSON.stringify(scooter);
 	}
+	
+	async createAssetService(ctx, SID, serialNumber, serviceDescription){
+		
+		console.info('============= START : Create Asset Service ===========');
+		
+		const service = {
+			SID: SID,
+			SerialNumber: serialNumber,
+			ServiceDescription: serviceDescription
+		};
+		
+		await ctx.stub.putState(SID, Buffer.from(stringify(sortKeysRecursive(service))));
+		
+		console.info('============= END : Create Asset Service ===========');
+		
+		return JSON.stringify(service);
+		
+	}
+	
+	async queryAssetServiceHistory(ctx, serialNumber){
+		
+		console.info('============= START : Query Asset History ===========');
+
+        const startKey = '';
+        const endKey = '';
+        const allResults = [];
+        for await (const {key, value} of ctx.stub.getStateByRange(startKey, endKey)) {
+            const strValue = Buffer.from(value).toString('utf8');
+            let record;
+            try {
+                record = JSON.parse(strValue);
+            } catch (err) {
+                console.log(err);
+                record = strValue;
+            }
+            if(record.hasOwnProperty('ServiceDescription') && record.SerialNumber === serialNumber){
+                allResults.push({ Key: key, Record: record });
+            }
+        }
+        console.info(allResults);
+
+        console.info('============= END : Query Asset History ===========');
+
+        return JSON.stringify(allResults);
+	}
+	
+	async queryAssetHistory(ctx, serialNumber){
+		
+		let iterator = await ctx.stub.getHistoryForKey(serialNumber);
+    	let result = [];
+    	let res = await iterator.next();
+    	
+    	while (!res.done) {
+      		if (res.value) {
+        		console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
+        		const obj = JSON.parse(res.value.value.toString('utf8'));
+        		result.push(obj);
+      		}
+      		res = await iterator.next();
+    	}
+    	await iterator.close();
+    	return JSON.stringify(result);
+	}
 
 
     async queryMyAssets(ctx, owner) {
@@ -192,6 +255,14 @@ class Scoot extends Contract {
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         return ctx.stub.putState(serialNumber, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
         
+    }
+    
+    async rejectAssetRegistration(ctx, serialNumber) {
+        const exists = await this.AssetExists(ctx, serialNumber);
+        if (!exists) {
+            throw new Error(`The asset ${serialNumber} does not exist`);
+        }
+        return ctx.stub.deleteState(serialNumber);
     }
     
     async getAssetStatus(ctx, serialNumber){

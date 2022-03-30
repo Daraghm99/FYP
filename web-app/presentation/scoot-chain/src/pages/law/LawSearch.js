@@ -3,30 +3,35 @@ import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import axios from '../../api/axios';
 
-const OwnerSearch = () => {
+const LawSearch = () => {
 
-	const [serialNumber, setSerialNumber] = useState('');
+	const [serialNumber, setSerialNumber] = useState();
 
-	const handleOwnerSearch = async (e) => {
+	const handleLawSearch = async (e) => {
 		e.preventDefault();
 		const token  = JSON.parse(localStorage.getItem('authToken'));
 		
 		try {
-			const response = await axios.post('/scooter/GetAssetStatus', JSON.stringify({ serialNumber }),
+			const response = await axios.post('/scooter/ReviewScooter', JSON.stringify({ serialNumber }),
 			{
 				headers: { 	'Content-Type': 'application/json',
 									  'authToken': token
 				}
 			});
-		alert('The E-Scooter Status is ' + response.data);
+			alert('Manufacturer: ' + response.data.Manufacturer + '\n' +
+						'Model: ' + response.data.Model + '\n' + 
+						'Owner: ' + response.data.Owner + '\n' +
+						'Retailer: ' + response.data.Retailer + '\n' +
+						'State: ' + response.data.State + '\n' + 
+						'Status: ' + response.data.Status);
 		} catch(err){
 			console.log(err);
 		}
 	}
-	
+
   return (
-    <div className='ownerSearch'>
-			<form className='requestForm' onSubmit={handleOwnerSearch}>
+    <div className='lawSearch'>
+			<form className='reviewForm' onSubmit={handleLawSearch}>
         <input 
             type='text'
             placeholder='Enter E-Scooter Serial Number'
@@ -45,4 +50,4 @@ const OwnerSearch = () => {
   )
 }
 
-export default OwnerSearch
+export default LawSearch

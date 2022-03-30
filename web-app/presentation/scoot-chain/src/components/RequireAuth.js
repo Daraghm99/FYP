@@ -7,7 +7,7 @@ const RequireAuth = ({ allowedRole }) => {
 
     return (
         // If no user is logged in reroute them to the login page and update their location history
-        auth?.role === allowedRole ? <Outlet /> : <Navigate to='/login' state={{ from: location }} replace />
+        auth?.role === allowedRole ? <Outlet /> : <Navigate to='/' state={{ from: location }} replace />
     );
 }
 

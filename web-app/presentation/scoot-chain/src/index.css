@@ -68,7 +68,7 @@ form {
   margin: 24px 48px;
 }
 
-form input[type=text] {
+form input[type=text], form input[type=password], textarea {
   width: 100%;
   padding: 12px 24px;
   margin: 10px;
@@ -153,6 +153,14 @@ form p {
 
 .approveButton:hover {
   background-color: rgb(71, 231, 71);
+}
+
+.rejectButton {
+  background-color: rgb(221, 25, 25);
+}
+
+.rejectButton:hover {
+  background-color: rgb(245, 62, 62);
 }
 
 button:hover {

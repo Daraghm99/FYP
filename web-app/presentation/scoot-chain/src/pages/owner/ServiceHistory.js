@@ -1,32 +1,33 @@
-import React from 'react'
-import { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import React, { useState } from 'react'
 import axios from '../../api/axios';
+import ServiceTable from './ServiceTable';
 
-const OwnerSearch = () => {
+const ServiceHistory = () => {
 
 	const [serialNumber, setSerialNumber] = useState('');
+	const [services, setServices] = useState([]);
 
-	const handleOwnerSearch = async (e) => {
+	const handleServiceHistory = async (e) => {
 		e.preventDefault();
 		const token  = JSON.parse(localStorage.getItem('authToken'));
 		
 		try {
-			const response = await axios.post('/scooter/GetAssetStatus', JSON.stringify({ serialNumber }),
+			const response = await axios.post('/scooter/GetAssetServiceHistory', JSON.stringify({ serialNumber }),
 			{
 				headers: { 	'Content-Type': 'application/json',
 									  'authToken': token
 				}
 			});
-		alert('The E-Scooter Status is ' + response.data);
+		setServices(response.data);
+		console.log(response.data);
 		} catch(err){
 			console.log(err);
 		}
 	}
-	
+
   return (
-    <div className='ownerSearch'>
-			<form className='requestForm' onSubmit={handleOwnerSearch}>
+    <div className='serviceHistory'>
+			<form className='historyForm' onSubmit={handleServiceHistory}>
         <input 
             type='text'
             placeholder='Enter E-Scooter Serial Number'
@@ -38,11 +39,13 @@ const OwnerSearch = () => {
 					id='searchButton'
 					type='submit'
 				>
-						<FaSearch />
+						Submit
 				</button>
 			</form>
+
+			<ServiceTable services={services} />
     </div>
   )
 }
 
-export default OwnerSearch
+export default ServiceHistory
