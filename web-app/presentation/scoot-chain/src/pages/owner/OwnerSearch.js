@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import axios from '../../api/axios';
+import { toast } from 'react-toastify';
 
 const OwnerSearch = () => {
 
@@ -14,17 +15,25 @@ const OwnerSearch = () => {
 		try {
 			const response = await axios.post('/scooter/GetAssetStatus', JSON.stringify({ serialNumber }),
 			{
-				headers: { 	'Content-Type': 'application/json',
-									  'authToken': token
+				headers: 
+				{ 	
+					'Content-Type': 'application/json',
+					'authToken': token
 				}
 			});
+		toast.success('E-Scooter Status Retrieved');	
 		alert('The E-Scooter Status is ' + response.data);
 		} catch(err){
-			console.log(err);
+			if(err.response?.status === 404){
+				toast.error('E-Scooter Not Found', {
+					toastId: 'searchError',
+				})
+			}
 		}
 	}
 	
   return (
+	
     <div className='ownerSearch'>
 			<form className='requestForm' onSubmit={handleOwnerSearch}>
         <input 

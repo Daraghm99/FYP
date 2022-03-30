@@ -86,10 +86,14 @@ export const transferScooter = async (req, res) => {
 
         const result = await contract.submitTransaction('transferAsset', req.body.serialNumber, req.body.newOwner);
         
+        console.log(JSON.parse(result));
+
         if(JSON.parse(result) === 'User Error'){
-            res.status(413).send('User Not Found');
-        } else {
-            res.send('Asset Transferred').status(200);
+            res.status(405).send('User Not Found');
+        } else if (JSON.parse(result) === 'Self Transfer'){
+            res.status(406).send('Self Transfer');
+        } else{
+            res.status(200).send(JSON.parse(result));
         }
 
         // Disconnect from the gateway.
@@ -146,7 +150,15 @@ export const getScooterStatus = async (req, res) => {
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
         let result = await contract.evaluateTransaction('getAssetStatus', req.body.serialNumber);
-        res.send(result.toString()).status(200);
+
+        console.log(result.toString());
+        console.log(JSON.parse(result));
+
+        if(JSON.parse(result) == 'Asset Not Found'){
+            res.status(404).send(result.toString());
+        } else {
+            res.send(result.toString()).status(200);
+        }
 
         // Disconnect from the gateway.
         await gateway.disconnect();
@@ -174,7 +186,12 @@ export const getScooterServiceHistory = async (req, res) => {
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
         let result = await contract.evaluateTransaction('queryAssetServiceHistory', req.body.serialNumber);
-        res.send(JSON.parse(result.toString())).status(200);
+
+        if(JSON.parse(result) === 'Not Found'){
+            res.status(405).send('Asset Not Found');
+        } else {
+            res.send(JSON.parse(result.toString())).status(200);
+        }
 
         // Disconnect from the gateway.
         await gateway.disconnect();

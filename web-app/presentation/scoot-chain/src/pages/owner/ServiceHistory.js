@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 import axios from '../../api/axios';
 import ServiceTable from './ServiceTable';
 
@@ -19,9 +20,11 @@ const ServiceHistory = () => {
 				}
 			});
 		setServices(response.data);
-		console.log(response.data);
+		toast.success('E-Scooter Service History Retrieved');
 		} catch(err){
-			console.log(err);
+			if(err.response?.status === 405){
+				toast.error('E-Scooter Not Found');
+			}
 		}
 	}
 

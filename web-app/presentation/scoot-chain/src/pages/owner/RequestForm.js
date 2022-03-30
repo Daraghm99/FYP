@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import axios from '../../api/axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const RequestForm = () => {
 
@@ -40,7 +39,6 @@ const RequestForm = () => {
 
   return (
     <form className='requestForm' onSubmit={handleRequestSubmit}>
-			<ToastContainer />
 			<h1>E-Scooter Request Registration Form</h1>
 			<p>Enter details relating to your E-Scooter!</p>
 			<label htmlFor='serialNumber'>SerialNumber:</label>

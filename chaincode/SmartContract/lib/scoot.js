@@ -86,7 +86,13 @@ class Scoot extends Contract {
 	async queryAssetServiceHistory(ctx, serialNumber){
 		
 		console.info('============= START : Query Asset History ===========');
-
+		
+		const exists = await this.AssetExists(ctx, serialNumber);
+        if (!exists) {
+            //throw new Error(`The asset ${serialNumber} already exists`);
+            return JSON.stringify('Not Found');
+        }
+		
         const startKey = '';
         const endKey = '';
         const allResults = [];
@@ -120,6 +126,9 @@ class Scoot extends Contract {
       		if (res.value) {
         		console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
         		const obj = JSON.parse(res.value.value.toString('utf8'));
+        		obj.TxId = res.value.txId;
+                obj.Timestamp = res.value.timestamp;
+                obj.Timestamp = new Date((res.value.timestamp.seconds.low * 1000));
         		result.push(obj);
       		}
       		res = await iterator.next();
@@ -196,9 +205,17 @@ class Scoot extends Contract {
         const assetString = await this.ReadAsset(ctx, serialNumber);
         const asset = JSON.parse(assetString);
         const oldOwner = asset.Owner;
+        
+        if(oldOwner === newOwner){
+        	return JSON.stringify('Self Transfer');
+        }
+        
         asset.Owner = newOwner;
+        
         // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
         ctx.stub.putState(serialNumber, Buffer.from(stringify(sortKeysRecursive(asset))));
+        
+        return JSON.stringify('Asset Transferred');
 
         console.info('============= END : Transfer Asset Ownership ===========');
 
@@ -275,6 +292,12 @@ class Scoot extends Contract {
     async getAssetStatus(ctx, serialNumber){
     
     	console.info('============= START : Get Asset Status ===========');	
+    	
+    	const exists = await this.AssetExists(ctx, serialNumber);
+        if (!exists) {
+            //throw new Error(`The asset ${serialNumber} does not exist`);
+            return JSON.stringify('Asset Not Found');
+        }
     
     	const assetString = await this.ReadAsset(ctx, serialNumber);
         const asset = JSON.parse(assetString);
@@ -282,7 +305,7 @@ class Scoot extends Contract {
         
         console.info('============= END : Get Asset Status ===========');	
         
-        return assetState.toString();
+        return JSON.stringify(assetState);
     	
     }
     

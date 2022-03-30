@@ -1,6 +1,9 @@
 
 import Login from './components/Login';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Owner Pages
 import CreateRequest from './pages/owner/CreateRequest';
 import ViewMyScooters from './pages/owner/ViewMyScooters';
@@ -26,8 +29,11 @@ import { Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <div className='App'>
-      
+
+      <ToastContainer />
+
       <Routes>
+
           {/* Public Routes Available to every User*/}
           <Route path='/' element={<Login />} />
 

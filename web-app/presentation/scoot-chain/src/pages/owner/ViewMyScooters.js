@@ -56,10 +56,37 @@ const ViewMyScooters = () => {
           toast.success('E-Scooter Transferred');
           console.log(response);
         } catch (err) {
-          if(err.response.status === 413){
+          if(err.response?.status === 405){
             toast.error('User Not Found');
+          } else if (err.response?.status){
+            toast.error('Transfer Forbidden');
           }
         }
+      }
+    }
+  }
+
+  /* Function Passed to Stolen Button as Prop */
+  const handleStolenClick = (serialNumber) => async (event) => {
+    event.preventDefault();
+
+    const token  = JSON.parse(localStorage.getItem('authToken'));
+
+    // Ask The user if they are sure they wish to proceed
+    const result = await confirm('Are You sure you Wish to Mark this Asset as Stolen');
+    if(result){
+      try {
+        await axios.put('/scooter/MarkAsStolen', JSON.stringify({ serialNumber }),
+        {
+          headers: 
+          { 	
+            'Content-Type': 'application/json',
+            'authToken': token
+          }
+        });
+        toast.success('E-Scooter Marked as Stolen');
+      } catch (err) {
+        console.log(err);
       }
     }
   }
@@ -69,7 +96,7 @@ const ViewMyScooters = () => {
       <OwnerNav />
       <ToastContainer />
       <OwnerSearch />
-      <TableList scooters={scooters} handleTransferClick={handleTransferClick}/>
+      <TableList scooters={scooters} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
       <Footer />
     </>
   )
