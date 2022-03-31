@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from '../../api/axios';
+import { toast } from 'react-toastify';
 
 const RegisterForm = () => {
 
@@ -17,18 +18,26 @@ const RegisterForm = () => {
 		try {
 			const response = await axios.post('/scooter/RegisterAsset', JSON.stringify({ serialNumber, manufacturer, model, owner }),
 			{
-				headers: { 	'Content-Type': 'application/json',
-									  'authToken': token
+				headers: 
+				{ 	
+					'Content-Type': 'application/json',
+					'authToken': token
 				}
 			});
 			console.log(response);
-			alert('E-Scooter Request Succesfully Registered');
+			toast.success('E-Scooter Registered');
 			setSerialNumber('');
 			setManufacturer('');
 			setModel('');
 			setOwner('');
 		} catch (err) {
-
+			if(err.response?.status === 405){
+				toast.error('E-Scooter Already Recorded');
+			} else if (err.response?.status === 406){
+				toast.error('Owner not Found');
+			} else if (err.response?.status === 407){
+				toast.error('Cannot Register to User');
+			}
 		}
 	}
 

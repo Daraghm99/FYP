@@ -1,7 +1,7 @@
 import React from 'react'
 import RequestItem from './RequestItem'
 
-const RequestList = ({ requests }) => {
+const RequestList = ({ requests, handleApproveClick, handleRejectClick }) => {
   return (
     <div className='table-container'>
       <h1>Pending E-Scooter Registration Requests</h1>
@@ -20,7 +20,7 @@ const RequestList = ({ requests }) => {
         </thead>
 				<tbody>
 					{requests.map(request => (
-            <RequestItem key={request.Key} request={request} />
+            <RequestItem key={request.Key} request={request} handleApproveClick={handleApproveClick} handleRejectClick={handleRejectClick} />
         	))}
 				</tbody>
       </table>

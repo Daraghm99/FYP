@@ -44,9 +44,23 @@ class Scoot extends Contract {
 		// Will ensure E-Scooter is not present in either a pending or registered status 
         const exists = await this.AssetExists(ctx, serialNumber);
         if (exists) {
-            throw new Error(`The asset ${serialNumber} already exists`);
+            //throw new Error(`The asset ${serialNumber} already exists`);
+            return JSON.stringify('Asset Exists');
         }
-       
+
+        // Check if the owner input exists on the network
+        const uexists = await this.UserExists(ctx, owner);
+        if(!uexists){
+            return JSON.stringify('User Not Found');
+        }
+
+        // Check the role of the owner
+        const assetJSON = await ctx.stub.getState(owner);
+        const asset = JSON.parse(assetJSON);
+        if(asset.Role !== 'owner'){
+            return JSON.stringify('User Role Error');
+        }
+
         const scooter = {
         	SerialNumber: serialNumber, 
         	Manufacturer: manufacturer, 
@@ -65,14 +79,21 @@ class Scoot extends Contract {
         return JSON.stringify(scooter);
 	}
 	
-	async createAssetService(ctx, SID, serialNumber, serviceDescription){
+	async createAssetService(ctx, SID, serialNumber, serviceType, serviceDescription){
 		
 		console.info('============= START : Create Asset Service ===========');
+		
+		const exists = await this.AssetExists(ctx, serialNumber);
+        if (!exists) {
+            //throw new Error(`The asset ${serialNumber} already exists`);
+            return JSON.stringify('E-Scooter Not Found');
+        }
 		
 		const service = {
 			SID: SID,
 			SerialNumber: serialNumber,
-			ServiceDescription: serviceDescription
+			ServiceType: serviceType,
+			ServiceDescription: serviceDescription,
 		};
 		
 		await ctx.stub.putState(SID, Buffer.from(stringify(sortKeysRecursive(service))));

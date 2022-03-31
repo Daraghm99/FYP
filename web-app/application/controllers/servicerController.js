@@ -22,14 +22,15 @@ export const createScooterService = async (req, res) => {
         // Create a unique Service Record ID by using the uuidv4 library
         const SID = uuidv4();
 
-        let result = await contract.submitTransaction('createAssetService', SID, req.body.serialNumber, req.body.serviceDescription);
+        let result = await contract.submitTransaction('createAssetService', SID, req.body.serialNumber, req.body.serviceType, req.body.serviceDescription);
         
         console.log('Transaction Submitted');
-        
-        if (`${result}` !== '') {
-            res.send(JSON.parse(result)).status(200);
+        console.log(JSON.parse(result));
+
+        if (JSON.parse(result) === 'E-Scooter Not Found') {
+            res.status(405).send('E-Scooter Not Found')
         } else {
-            res.send('Unable to Create Request').status(401);
+            res.send(JSON.parse(result)).status(200);
         }
 
         // Disconnect from the gateway.

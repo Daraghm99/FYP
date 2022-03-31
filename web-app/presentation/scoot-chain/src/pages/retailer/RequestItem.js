@@ -2,7 +2,7 @@ import React from 'react';
 import ApproveButton from './ApproveButton';
 import RejectButton from './RejectButton';
 
-const RequestItem = ({ request }) => {
+const RequestItem = ({ request, handleApproveClick, handleRejectClick }) => {
   return (
     <tr>
       	<td id='serial-number'>{request.Record.SerialNumber}</td>
@@ -10,8 +10,8 @@ const RequestItem = ({ request }) => {
         <td>{request.Record.Model}</td>
         <td>{request.Record.Owner}</td>
         <td>{request.Record.Status}</td>
-        <td><ApproveButton request={request} /></td>
-        <td><RejectButton request={request} /></td>
+        <td><ApproveButton request={request} handleApproveClick={handleApproveClick} /></td>
+        <td><RejectButton request={request} handleRejectClick={handleRejectClick} /></td>
     </tr>
   )
 }

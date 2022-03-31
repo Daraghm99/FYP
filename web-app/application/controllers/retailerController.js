@@ -21,10 +21,14 @@ export const registerScooter = async (req, res) => {
 
         let result = await contract.submitTransaction('createAsset', req.body.serialNumber, req.body.manufacturer, req.body.model, req.body.owner, req.user.Name);
         
-        if (`${result}` !== '') {
-            res.send(JSON.parse(result.toString())).status(200);
+        if (JSON.parse(result) === 'Asset Exists') {
+            res.status(405).send('E-Scooter Exists');
+        } else if (JSON.parse(result) === 'User Not Found'){
+            res.status(406).send('User Not Found');
+        } else if (JSON.parse(result) === 'User Role Error'){
+            res.status(407).send('User Role Error');
         } else {
-            res.send('Unable to Create Request').status(400);
+            res.send(JSON.parse(result.toString())).status(200);
         }
         
         // Disconnect from the gateway.
