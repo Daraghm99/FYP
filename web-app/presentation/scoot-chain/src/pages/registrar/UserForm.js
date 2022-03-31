@@ -2,13 +2,14 @@ import React from 'react'
 import { useState } from 'react';
 import axios from '../../api/axios';
 import { FaPlus } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const UserForm = () => {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
-	const [role, setRole] = useState('');
+	const [role, setRole] = useState('owner');
 
 	const handleUserSubmit = async (e) => {
 		e.preventDefault();
@@ -23,9 +24,18 @@ const UserForm = () => {
 					'authToken': token
 				}
 			});
-		console.log(response);
+			toast.success('Participant Added');
+			setEmail('');
+			setPassword('');
+			setName('');
+			setRole('owner');
+			console.log(response);
 		} catch(err){
-			console.log(err);
+			if(err.response?.status === 405){
+				toast.error('Participant Already Exists');
+			} else if (err.response?.status === 406){
+				toast.error('Retailer Already Exists');
+			}
 		}
 	}
 

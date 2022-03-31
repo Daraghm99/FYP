@@ -145,11 +145,11 @@ class Scoot extends Contract {
     	
     	while (!res.done) {
       		if (res.value) {
-        		console.info(`found state update with value: ${res.value.value.toString('utf8')}`);
         		const obj = JSON.parse(res.value.value.toString('utf8'));
         		obj.TxId = res.value.txId;
                 obj.Timestamp = res.value.timestamp;
                 obj.Timestamp = new Date((res.value.timestamp.seconds.low * 1000));
+                obj.Certificate = res.value.X509Certificate;
         		result.push(obj);
       		}
       		res = await iterator.next();
@@ -360,7 +360,8 @@ class Scoot extends Contract {
 	async ReadAsset(ctx, serialNumber) {
         const assetJSON = await ctx.stub.getState(serialNumber); // get the asset from chaincode state
         if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The asset ${serialNumber} does not exist`);
+            //throw new Error(`The asset ${serialNumber} does not exist`);
+            return JSON.stringify('E-Scooter Not Found');
         }
         return assetJSON.toString();
     }
@@ -378,7 +379,17 @@ class Scoot extends Contract {
 		// Will ensure E-Scooter is not present in either a pending or registered status 
         const exists = await this.UserExists(ctx, email);
         if (exists) {
-            throw new Error(`The asset ${email} already exists`);
+            //throw new Error(`The asset ${email} already exists`);
+            return JSON.stringify('User Exists');
+        }
+        
+        // Check if any retailer wth the same name exists
+        if(role === 'retailer'){
+        	const rexists = await this.RetailerExists(ctx, name);
+        	
+        	if (rexists) {
+        		return JSON.stringify('Retailer Exists');
+        	}
         }
        
         const user = {
@@ -449,6 +460,31 @@ class Scoot extends Contract {
     async UserExists(ctx, ID) {
         const assetJSON = await ctx.stub.getState(ID);
         return assetJSON && assetJSON.length > 0;
+    }
+    
+    async RetailerExists(ctx, Name) {
+        console.info('============= START : Retailer Exists ===========');
+
+        const startKey = '';
+        const endKey = '';
+        const allResults = [];
+        for await (const {key, value} of ctx.stub.getStateByRange(startKey, endKey)) {
+            const strValue = Buffer.from(value).toString('utf8');
+            let record;
+            try {
+                record = JSON.parse(strValue);
+            } catch (err) {
+                console.log(err);
+                record = strValue;
+            }
+            if(record.hasOwnProperty('ID') && record.Name === Name){
+                return true
+            }
+        }
+
+        console.info('============= END : Retailer Exists ===========');
+
+        return false
     }
 
 

@@ -20,7 +20,12 @@ export const reviewScooter = async (req, res) => {
         const contract = network.getContract(process.env.SCOOT_CONTRACT);
 
         let result = await contract.evaluateTransaction('ReadAsset', req.body.serialNumber);
-        res.send(JSON.parse(result.toString())).status(200);
+
+        if(JSON.parse(result) === 'E-Scooter Not Found'){
+            res.status(405).send('E-Scooter Not Found');
+        } else {
+            res.send(JSON.parse(result.toString())).status(200);
+        }
 
         // Disconnect from the gateway.
         await gateway.disconnect();

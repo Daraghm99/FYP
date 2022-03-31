@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import axios from '../../api/axios';
+import { toast } from 'react-toastify';
 
 const LawSearch = () => {
 
@@ -14,10 +15,13 @@ const LawSearch = () => {
 		try {
 			const response = await axios.post('/scooter/ReviewScooter', JSON.stringify({ serialNumber }),
 			{
-				headers: { 	'Content-Type': 'application/json',
-									  'authToken': token
+				headers: 
+				{ 	
+					'Content-Type': 'application/json',
+					'authToken': token
 				}
 			});
+			toast.success('E-Scooter Info Retrieved');
 			alert('Manufacturer: ' + response.data.Manufacturer + '\n' +
 						'Model: ' + response.data.Model + '\n' + 
 						'Owner: ' + response.data.Owner + '\n' +
@@ -25,7 +29,9 @@ const LawSearch = () => {
 						'State: ' + response.data.State + '\n' + 
 						'Status: ' + response.data.Status);
 		} catch(err){
-			console.log(err);
+			if(err.response?.status === 405){
+				toast.error('E-Scooter Not Found');
+			}
 		}
 	}
 

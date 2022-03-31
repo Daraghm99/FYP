@@ -15,14 +15,11 @@ const wallet = await Wallets.newFileSystemWallet(walletPath);
 
 export const createUser = async (req, res) => {
 
-    // Create a certificate for the user
-    await registerUser(req.body.email);
-
     try {
 
         // Create a new gateway for connecting to the peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: req.body.email, discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
@@ -40,11 +37,15 @@ export const createUser = async (req, res) => {
         
         console.log('Transaction has been submitted');
         
-        if (`${result}` !== '') {
+        if (JSON.parse(result) === 'User Exists') {
+            res.status(405).send('User Already Exists');
+        } else if (JSON.parse(result) === 'Retailer Exists'){
+            res.status(406).send('Retailer Already Exists');
+        } else {
             res.send(JSON.parse(result.toString())).status(200);
 
-        } else {
-            res.send('Unable to Register User').status(400);
+            // Create a certificate for the user
+            await registerUser(req.body.email);
         }
 
         // Disconnect from the gateway.
@@ -145,6 +146,14 @@ export const removeParticipant = async (req, res) => {
 
         await contract.submitTransaction('removeParticipant', req.body.ID);
 	    res.send('Particpant Removed from the Network').status(200);
+
+        // Remove the Users X.509 Cert from the wallet
+        const path = process.env.WALLET_PATH + '/' + req.body.ID + '.id';
+        try{
+            fs.unlinkSync(path);
+        } catch(err) {
+            console.log(err);
+        }
 
         // Disconnect from the gateway.
         await gateway.disconnect();

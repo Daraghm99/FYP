@@ -22,6 +22,7 @@ import CreateService from './pages/servicer/CreateService';
 // Registrar Pages
 import ViewParticipants from './pages/registrar/ViewParticipants';
 import CreateUser from './pages/registrar/CreateUser';
+import ViewHistory from './pages/registrar/ViewHistory';
 
 import RequireAuth from './components/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
@@ -63,6 +64,7 @@ function App() {
           {/* Routes Available to Users with a Role of Registrar */}
           <Route element={<RequireAuth allowedRole={'registrar'} />}>
             <Route path='createUser' element={<CreateUser />} />
+            <Route path='viewHistory' element={<ViewHistory />} />
             <Route path='viewParticipants' element={<ViewParticipants />} />
           </Route>
 
