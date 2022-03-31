@@ -16,7 +16,7 @@ router.put('/TransferAsset', verify, checkOwner, transferScooter);
 router.put('/MarkAsStolen', verify, checkOwner, markScooterStolen);
 router.post('/GetAssetStatus', verify, checkOwner, getScooterStatus);
 router.post('/GetAssetServiceHistory', verify, checkOwner, getScooterServiceHistory);
-router.post('/GetScooterHistory', verify, checkOwner, getScooterHistory);
+router.post('/GetScooterHistory', verify, getScooterHistory);
 
 // Retailers
 router.post('/RegisterAsset', verify, checkRetailer, registerScooter);

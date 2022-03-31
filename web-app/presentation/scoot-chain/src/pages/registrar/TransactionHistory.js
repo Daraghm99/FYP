@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
-import { toast } from 'react-toastify';
+import React from 'react'
+import { useState } from 'react';
 import axios from '../../api/axios';
-import ServiceTable from './ServiceTable';
+import { toast } from 'react-toastify';
+import TransactionTable from './TransactionTable';
 
-const ServiceHistory = () => {
+const TransactionHistory = () => {
 
 	const [serialNumber, setSerialNumber] = useState('');
-	const [services, setServices] = useState([]);
+	const [transactions, setTransactions] = useState([]);
 
-	const handleServiceHistory = async (e) => {
+	const handleTransactionHistory = async (e) => {
 		e.preventDefault();
 		const token  = JSON.parse(localStorage.getItem('authToken'));
 		
 		try {
-			const response = await axios.post('/scooter/GetAssetServiceHistory', JSON.stringify({ serialNumber }),
+			const response = await axios.post('/scooter/GetScooterHistory', JSON.stringify({ serialNumber }),
 			{
 				headers: 
 				{ 	
@@ -21,8 +22,8 @@ const ServiceHistory = () => {
 					'authToken': token
 				}
 			});
-		setServices(response.data);
-		toast.success('E-Scooter Service History Retrieved');
+			setTransactions(response.data);
+			toast.success('E-Scooter Service History Retrieved');
 		} catch(err){
 			if(err.response?.status === 405){
 				toast.error('E-Scooter Not Found');
@@ -32,7 +33,7 @@ const ServiceHistory = () => {
 
   return (
     <div className='serviceHistory'>
-			<form className='historyForm' onSubmit={handleServiceHistory}>
+			<form className='historyForm' onSubmit={handleTransactionHistory}>
         <input 
             type='text'
             placeholder='Enter E-Scooter Serial Number'
@@ -47,10 +48,9 @@ const ServiceHistory = () => {
 					Submit
 				</button>
 			</form>
-
-			<ServiceTable services={services} />
-    </div>
+			{<TransactionTable transactions={transactions} />}
+		</div>
   )
 }
 
-export default ServiceHistory
+export default TransactionHistory

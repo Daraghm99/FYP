@@ -64,8 +64,8 @@ function App() {
           {/* Routes Available to Users with a Role of Registrar */}
           <Route element={<RequireAuth allowedRole={'registrar'} />}>
             <Route path='createUser' element={<CreateUser />} />
-            <Route path='viewHistory' element={<ViewHistory />} />
             <Route path='viewParticipants' element={<ViewParticipants />} />
+            <Route path='viewHistory' element={<ViewHistory />} />
           </Route>
 
       </Routes>  

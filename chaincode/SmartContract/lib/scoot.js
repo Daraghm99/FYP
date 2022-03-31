@@ -139,6 +139,12 @@ class Scoot extends Contract {
 	
 	async queryAssetHistory(ctx, serialNumber){
 		
+		const exists = await this.AssetExists(ctx, serialNumber);
+        if (!exists) {
+            //throw new Error(`The asset ${serialNumber} already exists`);
+            return JSON.stringify('E-Scooter Not Found');
+        }
+		
 		let iterator = await ctx.stub.getHistoryForKey(serialNumber);
     	let result = [];
     	let res = await iterator.next();
