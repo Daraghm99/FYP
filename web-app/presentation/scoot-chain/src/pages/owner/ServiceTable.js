@@ -9,6 +9,7 @@ const ServiceTable = ({ services }) => {
         <thead>
           <tr>
             <th>Serial Number</th>
+            <th>Service Type</th>
             <th>Service Description</th>
           </tr>
         </thead>

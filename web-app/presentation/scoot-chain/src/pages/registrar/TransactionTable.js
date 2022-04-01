@@ -11,8 +11,8 @@ const TransactionTable = ({ transactions }) => {
             <th>TimeStamp</th>
             <th>Manufacturer</th>
             <th>Model</th>
-            <th>Retailer</th>
             <th>Owner</th>
+            <th>Retailer</th>
             <th>Status</th>
             <th>State</th>
           </tr>

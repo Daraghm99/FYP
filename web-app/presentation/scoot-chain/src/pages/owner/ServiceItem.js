@@ -4,6 +4,7 @@ const ServiceItem = ({ service }) => {
   return (
     <tr>
         <td id='serial-number'>{service.Record.SerialNumber}</td>
+        <td>{service.Record.ServiceType}</td>
         <td>{service.Record.ServiceDescription}</td>
     </tr>
   )
