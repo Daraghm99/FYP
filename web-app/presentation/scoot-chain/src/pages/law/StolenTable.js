@@ -18,7 +18,7 @@ const StolenTable = ({ stolenScooters }) => {
         </thead>
 				<tbody>
 					{stolenScooters.map(stolenScooter => (
-            <StolenItem key={stolenScooter.Key} stolenScooter={stolenScooter} />
+            <StolenItem key={stolenScooter.SerialNumber} stolenScooter={stolenScooter} />
         	))}
 				</tbody>
       </table>

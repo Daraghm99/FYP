@@ -6,7 +6,7 @@ const RemoveButton = ({ user, handleRemoveClick }) => {
   return (
     <button
       className='stolenButton'
-      onClick={handleRemoveClick(user.Record.ID)}
+      onClick={handleRemoveClick(user.ID)}
     >
       Remove <FaTrash />
     </button>

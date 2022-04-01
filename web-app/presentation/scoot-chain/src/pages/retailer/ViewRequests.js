@@ -48,7 +48,7 @@ const ViewRequests = () => {
             'authToken': token
           }
         });
-        const requestList = requests.filter((request) => request.Record.SerialNumber !== serialNumber);
+        const requestList = requests.filter((request) => request.SerialNumber !== serialNumber);
         setRequests(requestList);
 				toast.success('E-Scooter Request Approved');
 			}catch(err) {
@@ -73,7 +73,7 @@ const ViewRequests = () => {
             'authToken': token 
           }
         });
-        const requestList = requests.filter((request) => request.Record.SerialNumber !== serialNumber);
+        const requestList = requests.filter((request) => request.SerialNumber !== serialNumber);
         setRequests(requestList);
         toast.success('E-Scooter Request Rejected');   
 			}catch(err) {

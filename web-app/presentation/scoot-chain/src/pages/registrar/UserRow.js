@@ -4,9 +4,9 @@ import RemoveButton from './RemoveButton'
 const UserRow = ({ user, handleRemoveClick }) => {
   return (
     <tr>
-        <td id='email'>{user.Record.ID}</td>
-        <td>{user.Record.Name}</td>
-        <td>{user.Record.Role}</td>
+        <td id='email'>{user.ID}</td>
+        <td>{user.Name}</td>
+        <td>{user.Role}</td>
 				<td><RemoveButton user={user} handleRemoveClick={handleRemoveClick} /></td>
 		</tr>
     

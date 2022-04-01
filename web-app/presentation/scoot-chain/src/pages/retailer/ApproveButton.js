@@ -6,7 +6,7 @@ const ApproveButton = ({ request, handleApproveClick }) => {
   return (
     <button 
     className='approveButton'
-    onClick={handleApproveClick(request.Record.SerialNumber)}
+    onClick={handleApproveClick(request.SerialNumber)}
     >
         Approve <FaCheck />
     </button>

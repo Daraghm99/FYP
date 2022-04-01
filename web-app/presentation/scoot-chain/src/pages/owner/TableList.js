@@ -22,7 +22,7 @@ const ItemList = ({ scooters, handleTransferClick, handleStolenClick }) => {
         </thead>
 				<tbody>
 					{scooters.map(scooter => (
-            <TableItem key={scooter.Key} scooter={scooter} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
+            <TableItem key={scooter.SerialNumber} scooter={scooter} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
         	))}
 				</tbody>
       </table>

@@ -15,7 +15,7 @@ const ServiceTable = ({ services }) => {
         </thead>
 				<tbody>
 					{services.map(service => (
-            <ServiceItem key={service.Key} service={service} />
+            <ServiceItem key={service.ServiceDescription} service={service} />
         	))}
 				</tbody>
       </table>

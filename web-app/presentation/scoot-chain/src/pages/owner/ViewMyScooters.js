@@ -6,8 +6,7 @@ import TableList from './TableList';
 import { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 import { confirm } from 'react-confirm-box';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const ViewMyScooters = () => {
 
@@ -51,7 +50,8 @@ const ViewMyScooters = () => {
               'authToken': token
             }
           });
-          const scooterList = scooters.filter((scooter) => scooter.Record.SerialNumber !== serialNumber);
+          console.log('here');
+          const scooterList = scooters.filter((scooter) => scooter.SerialNumber !== serialNumber);
           setScooters(scooterList);
           toast.success('E-Scooter Transferred');
           console.log(response);
@@ -94,7 +94,6 @@ const ViewMyScooters = () => {
   return (
     <>
       <OwnerNav />
-      <ToastContainer />
       <OwnerSearch />
       <TableList scooters={scooters} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
       <Footer />

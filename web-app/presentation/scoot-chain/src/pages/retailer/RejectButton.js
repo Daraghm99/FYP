@@ -6,7 +6,7 @@ const RejectButton = ({ request, handleRejectClick }) => {
   return (
     <button 
     className='rejectButton'
-    onClick={handleRejectClick(request.Record.SerialNumber)}
+    onClick={handleRejectClick(request.SerialNumber)}
     >
         Reject <FaTrash />
     </button>

@@ -17,7 +17,7 @@ const UserTable = ({ users, handleRemoveClick }) => {
         </thead>
 				<tbody>
 					{users.map(user => (
-            <UserRow key={user.Key} user={user} handleRemoveClick={handleRemoveClick} />
+            <UserRow key={user.ID} user={user} handleRemoveClick={handleRemoveClick} />
         	))}
 				</tbody>
       </table>

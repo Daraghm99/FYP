@@ -3,11 +3,11 @@ import React from 'react'
 const StolenItem = ({ stolenScooter }) => {
   return (
   	<tr>
-      	<td id='serial-number'>{stolenScooter.Record.SerialNumber}</td>
-        <td>{stolenScooter.Record.Manufacturer}</td>
-        <td>{stolenScooter.Record.Model}</td>
-        <td>{stolenScooter.Record.Owner}</td>
-        <td>{stolenScooter.Record.Status}</td>
+      	<td id='serial-number'>{stolenScooter.SerialNumber}</td>
+        <td>{stolenScooter.Manufacturer}</td>
+        <td>{stolenScooter.Model}</td>
+        <td>{stolenScooter.Owner}</td>
+        <td>{stolenScooter.Status}</td>
     </tr>
   )
 }

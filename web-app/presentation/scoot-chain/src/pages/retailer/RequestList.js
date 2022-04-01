@@ -20,7 +20,7 @@ const RequestList = ({ requests, handleApproveClick, handleRejectClick }) => {
         </thead>
 				<tbody>
 					{requests.map(request => (
-            <RequestItem key={request.Key} request={request} handleApproveClick={handleApproveClick} handleRejectClick={handleRejectClick} />
+            <RequestItem key={request.SerialNumber} request={request} handleApproveClick={handleApproveClick} handleRejectClick={handleRejectClick} />
         	))}
 				</tbody>
       </table>

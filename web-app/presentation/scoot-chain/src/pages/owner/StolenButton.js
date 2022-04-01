@@ -5,7 +5,7 @@ const StolenButton = ({ scooter, handleStolenClick }) => {
   return (
     <button
       className='stolenButton'
-      onClick={handleStolenClick(scooter.Record.SerialNumber)}
+      onClick={handleStolenClick(scooter.SerialNumber)}
     >
       Mark As Stolen
     </button>

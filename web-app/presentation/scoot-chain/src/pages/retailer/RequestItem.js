@@ -5,11 +5,11 @@ import RejectButton from './RejectButton';
 const RequestItem = ({ request, handleApproveClick, handleRejectClick }) => {
   return (
     <tr>
-      	<td id='serial-number'>{request.Record.SerialNumber}</td>
-        <td>{request.Record.Manufacturer}</td>
-        <td>{request.Record.Model}</td>
-        <td>{request.Record.Owner}</td>
-        <td>{request.Record.Status}</td>
+      	<td id='serial-number'>{request.SerialNumber}</td>
+        <td>{request.Manufacturer}</td>
+        <td>{request.Model}</td>
+        <td>{request.Owner}</td>
+        <td>{request.Status}</td>
         <td><ApproveButton request={request} handleApproveClick={handleApproveClick} /></td>
         <td><RejectButton request={request} handleRejectClick={handleRejectClick} /></td>
     </tr>

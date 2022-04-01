@@ -5,7 +5,7 @@ const TransferButton = ({ scooter, handleTransferClick }) => {
   return (
     <button
         className='transferButton'
-        onClick={handleTransferClick(scooter.Record.SerialNumber)}
+        onClick={handleTransferClick(scooter.SerialNumber)}
     >
         Transfer Ownership
     </button>

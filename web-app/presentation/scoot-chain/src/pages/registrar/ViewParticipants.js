@@ -51,7 +51,7 @@ const ViewParticipants = () => {
             'authToken': token
           }
         });
-        const listUsers = users.filter((user) => user.Record.ID !== ID);
+        const listUsers = users.filter((user) => user.ID !== ID);
         setUsers(listUsers);
         toast.success('Participant Removed from the Network');
 			this.forceUpdate();

@@ -21,8 +21,8 @@ const ServiceHistory = () => {
 					'authToken': token
 				}
 			});
-		setServices(response.data);
-		toast.success('E-Scooter Service History Retrieved');
+			setServices(response.data);
+			toast.success('E-Scooter Service History Retrieved');
 		} catch(err){
 			if(err.response?.status === 405){
 				toast.error('E-Scooter Not Found');
