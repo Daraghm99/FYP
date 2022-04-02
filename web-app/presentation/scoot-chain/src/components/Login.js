@@ -1,26 +1,20 @@
 import React from 'react'
-import { useRef, useState, useEffect } from 'react';
+import {  useState } from 'react';
 import axios from '../api/axios';
 import jwt_decode from 'jwt-decode';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
 	const { setAuth } = useAuth();
-	
-	const userRef = useRef();
 
 	const navigate = useNavigate();
 
 	// Creating state for the password/email
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-
-	// Focus on the user input when the form loads
-	useEffect(() => {
-		userRef.current.focus();
-	}, []);
 
 	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
@@ -60,13 +54,14 @@ const Login = () => {
 				navigate('/createUser');
 			}
 			// Reset the Login form with empty fields
+			toast.success('Login Successful');
 			setEmail('');
 			setPassword('');
 		} catch(err) {
 			if(err.response?.status === 403){
-				console.log('Incorrect Email');
+				toast.error('Invalid Credentials')
 			} else if (err.response?.status === 401){
-				console.log('Incorrect Password');
+				toast.error('Invalid Credentials')
 			}
 		}
 	}
@@ -80,7 +75,6 @@ const Login = () => {
 					type='text' 
 					id='email' 
 					placeholder='Enter Email' 
-					ref={userRef} 
 					onChange={(e) => setEmail(e.target.value)}
 					value={email} 
 					required />
@@ -89,7 +83,6 @@ const Login = () => {
 					type='password'
 					id='password'
 					placeholder='Enter Password' 
-					ref={userRef}
 					onChange={(e) => setPassword(e.target.value)}
 					value={password} 
 					required

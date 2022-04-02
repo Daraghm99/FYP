@@ -8,14 +8,14 @@ const ServiceTable = ({ services }) => {
       <table className='scooterTable'>
         <thead>
           <tr>
-            <th>Serial Number</th>
+            <th>Service Date</th>
             <th>Service Type</th>
             <th>Service Description</th>
           </tr>
         </thead>
 				<tbody>
 					{services.map(service => (
-            <ServiceItem key={service.ServiceDescription} service={service} />
+            <ServiceItem key={service.SID} service={service} />
         	))}
 				</tbody>
       </table>

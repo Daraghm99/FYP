@@ -5,10 +5,12 @@ import StolenTable from './StolenTable'
 import LawSearch from './LawSearch'
 import { useState, useEffect } from 'react';
 import axios from '../../api/axios';
+import FilterStolen from './FilterStolen'
 
 const ViewStolen = () => {
 
 	const [stolenScooters, setStolenScooters] = useState([]);
+  const [filter, setFilter] = useState('');
 
 	useEffect(() => {
 
@@ -34,7 +36,8 @@ const ViewStolen = () => {
     <>
 			<LawNav />
       <LawSearch />
-			<StolenTable stolenScooters={stolenScooters} />
+      <FilterStolen filter={filter} setFilter={setFilter} />
+			<StolenTable stolenScooters={stolenScooters.filter(stolenScooter => ((stolenScooter.SerialNumber).toLowerCase()).includes(filter.toLowerCase()))} />
 			<Footer />
     </>
   )

@@ -5,12 +5,13 @@ import RegistrarNav from './RegistrarNav'
 import UserTable from './UserTable'
 import { useState, useEffect } from 'react';
 import { confirm } from 'react-confirm-box';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import FilterTable from './FilterTable'
 
 const ViewParticipants = () => {
 
   const [users, setUsers] = useState([]);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -64,8 +65,8 @@ const ViewParticipants = () => {
   return (
     <>
 			<RegistrarNav />
-      <ToastContainer />
-      <UserTable users={users} handleRemoveClick={handleRemoveClick} />
+      <FilterTable filter={filter} setFilter={setFilter} />
+      <UserTable users={users.filter(user => ((user.ID).toLowerCase()).includes(filter.toLowerCase()))} handleRemoveClick={handleRemoveClick} />
 			<Footer />
     </>
   )

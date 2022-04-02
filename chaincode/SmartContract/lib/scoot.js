@@ -71,7 +71,7 @@ class Scoot extends Contract {
         return JSON.stringify(scooter);
 	}
 	
-	async createAssetService(ctx, SID, serialNumber, serviceType, serviceDescription){
+	async createAssetService(ctx, SID, serialNumber, serviceType, serviceDate, serviceDescription){
 		
         // Ensure the E-Scooter that the service is being applied to exists
 		const exists = await this.AssetExists(ctx, serialNumber);
@@ -83,6 +83,7 @@ class Scoot extends Contract {
 			SID: SID,
 			SerialNumber: serialNumber,
 			ServiceType: serviceType,
+			ServiceDate: serviceDate,
 			ServiceDescription: serviceDescription,
 		};
 		
@@ -119,8 +120,6 @@ class Scoot extends Contract {
             result = await iterator.next();
         }
         return JSON.stringify(allResults);
-		
-        
 	}
 	
 	async queryAssetHistory(ctx, serialNumber){
@@ -166,7 +165,7 @@ class Scoot extends Contract {
                 record = strValue;
             }
             // Retrieve all Records for the owner passed in 
-            if(record.Owner === owner){
+            if(record.Owner === owner && record.Status === 'Registered'){
                 allResults.push(record);
             }
             result = await iterator.next();
@@ -366,7 +365,7 @@ class Scoot extends Contract {
 
         const assetJSON = await ctx.stub.getState(email); 
         if (!assetJSON || assetJSON.length === 0) {
-            throw new Error(`The asset ${email} does not exist`);
+            return JSON.stringify('User Not Found');
         }
 
         return assetJSON.toString();

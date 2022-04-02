@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import axios from '../../api/axios';
 import { toast } from 'react-toastify';
+import { FaPlus } from 'react-icons/fa';
 
 const RequestForm = () => {
 
@@ -25,7 +26,7 @@ const RequestForm = () => {
 				}
 			});
 			console.log(response);
-			toast.success('E-Scooter Requested Created');
+			toast.success('E-Scooter Request Created');
 			setSerialNumber('');
 			setManufacturer('');
 			setModel('');
@@ -76,7 +77,7 @@ const RequestForm = () => {
 					<button
 						id='submitButton'
 					>
-						Submit	
+						Submit <FaPlus />	
 					</button>
         </form>
   )

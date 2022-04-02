@@ -22,7 +22,7 @@ export const createScooterService = async (req, res) => {
         // Create a unique Service Record ID by using the uuidv4 library
         const SID = uuidv4();
 
-        let result = await contract.submitTransaction('createAssetService', SID, req.body.serialNumber, req.body.serviceType, req.body.serviceDescription);
+        let result = await contract.submitTransaction('createAssetService', SID, req.body.serialNumber, req.body.serviceType, req.body.serviceDate, req.body.serviceDescription);
         
         console.log('Transaction Submitted');
         console.log(JSON.parse(result));

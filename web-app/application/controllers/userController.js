@@ -63,7 +63,7 @@ export const getUser = async (req, res) => {
 
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: req.body.email, discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the Channel the Contract is deployed on using the channel name.
         const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
@@ -74,13 +74,13 @@ export const getUser = async (req, res) => {
         // Retrieve the result object and parse the JSON data
 	    const user = JSON.parse(result.toString());
     
-        if(user != ''){
+        if(user !== 'User Not Found'){
             // Compare the encypted password in the ledger with the input
             const validPassword = await bcrypt.compare(req.body.password, user.Password);
 
             if(validPassword){
                 // Create and assign a JWT token
-                // JWT Token will contain the email, name, and role of the user and will expire after 30 minutes
+                // JWT Token will contain the email, name, and role of the user 
                 const token = jwt.sign({ID: user.ID, Name: user.Name, Role: user.Role}, process.env.TOKEN_SECRET);
                 res.header('authToken', token).send(token);
             } else {

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from '../../api/axios';
 import { toast } from 'react-toastify';
+import { FaPlus } from 'react-icons/fa';
 
 const RegisterForm = () => {
 
@@ -84,7 +85,7 @@ const RegisterForm = () => {
 				<button
 						id='submitButton'
 					>
-						Register	
+						Register <FaPlus />	
 					</button>
 				
 			</form>

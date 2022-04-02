@@ -8,13 +8,14 @@ const ServiceForm = () => {
 	const [serialNumber, setSerialNumber] = useState('');
 	const [serviceDescription, setServiceDescription] = useState('');
 	const [serviceType, setServiceType] = useState('Upgrade');
+	const [serviceDate, setServiceDate] = useState('');
 
 	const handleServiceSubmit = async (e) => {
 		e.preventDefault();
 		const token  = JSON.parse(localStorage.getItem('authToken'));
 
 		try {
-			const response = await axios.post('/service/CreateAssetService', JSON.stringify({ serialNumber, serviceType, serviceDescription }),
+			const response = await axios.post('/service/CreateAssetService', JSON.stringify({ serialNumber, serviceType, serviceDate, serviceDescription }),
 			{
 				headers: 
 				{ 	
@@ -27,6 +28,7 @@ const ServiceForm = () => {
 		setSerialNumber('');
 		setServiceType('Upgrade');
 		setServiceDescription('');
+		setServiceDate('');
 		} catch(err){
 			if(err.response?.status === 405){
 				toast.error('E-Scooter Not Found');
@@ -38,7 +40,7 @@ const ServiceForm = () => {
     <form className='serviceForm' onSubmit={handleServiceSubmit}>
 			<h1>E-Scooter Service Form</h1>
 			<p>Enter details relating to the service carried out on the E-Scooter</p>
-			<label htmlFor='serialNumber'>SerialNumber:</label>
+			<label htmlFor='serialNumber'>Serial Number:</label>
 				<input 
 					type='text' 
 					id='serialNumber' 
@@ -57,6 +59,14 @@ const ServiceForm = () => {
 					<option value='Upgrade'>Upgrade</option>
 					<option value='Repair'>Repair</option>
 				</select>
+			<label htmlFor='serviceDate'>Service Date:</label>
+				<input 
+					type='date' 
+					id='serviceDate'  
+					onChange={(e) => setServiceDate(e.target.value)}
+					value={serviceDate} 
+					required 
+				/>
 			<label htmlFor="serviceDescription">Service Description:</label>
         <textarea
           id="serviceDescription"
