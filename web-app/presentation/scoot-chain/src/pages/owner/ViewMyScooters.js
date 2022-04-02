@@ -1,7 +1,6 @@
 import React from 'react'
 import Footer from '../../components/Footer';
 import OwnerNav from './OwnerNav';
-import OwnerSearch from './OwnerSearch';
 import TableList from './TableList';
 import { useEffect, useState } from 'react';
 import axios from '../../api/axios';
@@ -94,7 +93,6 @@ const ViewMyScooters = () => {
   return (
     <>
       <OwnerNav />
-      <OwnerSearch />
       <TableList scooters={scooters} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
       <Footer />
     </>

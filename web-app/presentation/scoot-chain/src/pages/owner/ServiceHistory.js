@@ -31,7 +31,7 @@ const ServiceHistory = () => {
 	}
 
   return (
-    <div className='serviceHistory'>
+    <div className='search-container'>
 			<form className='historyForm' onSubmit={handleServiceHistory}>
         <input 
             type='text'

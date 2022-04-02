@@ -1,7 +1,5 @@
 
 #root {
-  flex-grow: 1;
-  display: flex;
   align-items: center;
   justify-content: center;
   background-color: whitesmoke;
@@ -13,13 +11,20 @@ body {
 
 .App {
   width: 100%;
-  flex: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
   background-color: aliceblue;
+}
+
+h1, p {
+  text-align: center;
+}
+
+h1 {
+  color: rgb(53, 53, 236);
 }
 
 .Footer {
@@ -48,6 +53,7 @@ body {
 
 .Nav li {
   padding: 5px;
+  margin-left: 1rem;
 }
 
 .Nav li a {
@@ -55,19 +61,20 @@ body {
   text-decoration: none;
 }
 
-.Nav li:hover {
-  color: aqua;
+.Nav li a:hover {
+  color: yellow;
 }
 
-form {
-  width: 65%;
-  display: flex;
-  flex-direction: column;
-  margin: 24px 48px;
+.form-container {
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin-top: 5rem;
 }
 
-form input[type=text], form input[type=password], textarea, select, form input[type=date] {
+.form-container form input[type=text], form input[type=password], textarea, select, form input[type=date] {
   width: 100%;
+  margin: 0 auto 1em auto;
   padding: 12px 24px;
   margin: 10px;
   display: inline-block;
@@ -76,7 +83,7 @@ form input[type=text], form input[type=password], textarea, select, form input[t
   box-sizing: border-box;
 }
 
-form button {
+.form-container form button {
   width: 100%;
   background-color: rgb(29, 207, 29);
   color: white;
@@ -92,21 +99,42 @@ form button:hover {
   background-color: rgb(68, 233, 68);
 }
 
-form h1 {
+.search-container {
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  color: rgb(53, 53, 236);
-  margin-bottom: 12px;
+  margin-left: 10rem;
 }
 
-form p {
-  text-align: center;
-  color: black;
-  margin-bottom: 30px;
+.search-container form input[type=text]{
+  padding: 12px 24px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: none;
+}
+
+.search-container form button {
+  background-color: rgb(29, 207, 29);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: none;
+}
+
+#logoutButton {
+  background-color: rgb(53, 53, 236);;
+  color: white;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: none;
 }
 
 .table-container {
   align-items: center;
   justify-content: center;
+  margin-top: 5rem;
 }
 
 .table-container h1 {
