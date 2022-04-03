@@ -29,7 +29,11 @@ export const createScooterService = async (req, res) => {
 
         if (JSON.parse(result) === 'E-Scooter Not Found') {
             res.status(405).send('E-Scooter Not Found')
-        } else {
+        } else if (JSON.parse(result) === 'Not Registered') {
+            res.status(406).send('E-Scooter Not Registered');
+        } 
+        
+        else {
             res.send(JSON.parse(result)).status(200);
         }
 

@@ -7,6 +7,7 @@ import axios from '../../api/axios';
 import { confirm } from 'react-confirm-box';
 import { toast } from 'react-toastify';
 import FilterRequests from './FilterRequests';
+import LHeader from '../../components/LHeader';
 
 const ViewRequests = () => {
 
@@ -87,6 +88,7 @@ const ViewRequests = () => {
 
   return (
     <>
+      <LHeader />
     	<RetailerNav />
       <FilterRequests filter={filter} setFilter={setFilter} />
       <RequestList requests={requests.filter(request => ((request.SerialNumber).toLowerCase()).includes(filter.toLowerCase()))} handleApproveClick={handleApproveClick} handleRejectClick={handleRejectClick}/>

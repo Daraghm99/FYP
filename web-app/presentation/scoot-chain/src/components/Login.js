@@ -67,7 +67,7 @@ const Login = () => {
 	}
 
   return (
-    <section id='login-container'>
+    <div className='lform-container'>
 			<form id='login-form' onSubmit={handleLoginSubmit}>
 				<h1>ScootChain Login</h1>
 				<label htmlFor='email'>Email:</label>
@@ -93,7 +93,7 @@ const Login = () => {
 					Login
 				</button>
 			</form>
-		</section>
+		</div>
   )
 }
 

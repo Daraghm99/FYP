@@ -1,5 +1,5 @@
 
-import Login from './components/Login';
+import LoginPage from './components/LoginPage';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,7 +36,7 @@ function App() {
       <Routes>
 
           {/* Public Routes Available to every User*/}
-          <Route path='/' element={<Login />} />
+          <Route path='/' element={<LoginPage />} />
 
           {/* Routes Available to users with a role of owner */}
           <Route element={<RequireAuth allowedRole={'owner'} />}>

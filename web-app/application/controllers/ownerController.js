@@ -26,6 +26,8 @@ export const createScooterRequest = async (req, res) => {
         console.log(JSON.parse(result));
         if (JSON.parse(result) === 'Asset Exists') {
             res.status(409).send('Asset Exists on the Network');
+        } else if (JSON.parse(result) === 'No Retailer Found') {
+            res.status(410).send('Retailer Not Found');
         } else {
             res.send(JSON.parse(result)).status(200);
         }

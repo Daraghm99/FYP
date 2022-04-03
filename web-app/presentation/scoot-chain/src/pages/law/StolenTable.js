@@ -11,6 +11,7 @@ const StolenTable = ({ stolenScooters }) => {
 						<th>Manufacturer</th>
 						<th>Model</th>
 						<th>Owner</th>
+            <th>Retailer</th>
 						<th>Status</th>
           </tr>
         </thead>

@@ -32,8 +32,10 @@ const RequestForm = () => {
 			setModel('');
 			setRetailer('');
 		} catch(err){
-			if(err.response.status === 409){
-				toast.error('E-Scooter Already Registered!')
+			if(err.response?.status === 409){
+				toast.error('E-Scooter Already Registered!');
+			} else if (err.response?.status === 410){
+				toast.error('Retailer Not Found');
 			}
 		}
 	}

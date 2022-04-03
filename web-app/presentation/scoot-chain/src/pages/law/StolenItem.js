@@ -7,6 +7,7 @@ const StolenItem = ({ stolenScooter }) => {
         <td>{stolenScooter.Manufacturer}</td>
         <td>{stolenScooter.Model}</td>
         <td>{stolenScooter.Owner}</td>
+        <td>{stolenScooter.Retailer}</td>
         <td>{stolenScooter.Status}</td>
     </tr>
   )

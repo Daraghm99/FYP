@@ -32,6 +32,8 @@ const ServiceForm = () => {
 		} catch(err){
 			if(err.response?.status === 405){
 				toast.error('E-Scooter Not Found');
+			} else if (err.response?.status === 406) {
+				toast.error('E-Scooter Not Registered');
 			}
 		}
 	}

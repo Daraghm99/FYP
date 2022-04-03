@@ -5,6 +5,7 @@ import StolenTable from './StolenTable'
 import { useState, useEffect } from 'react';
 import axios from '../../api/axios';
 import FilterStolen from './FilterStolen'
+import LHeader from '../../components/LHeader';
 
 const ViewStolen = () => {
 
@@ -33,6 +34,7 @@ const ViewStolen = () => {
 
   return (
     <>
+      <LHeader />
 			<LawNav />
       <FilterStolen filter={filter} setFilter={setFilter} />
 			<StolenTable stolenScooters={stolenScooters.filter(stolenScooter => ((stolenScooter.SerialNumber).toLowerCase()).includes(filter.toLowerCase()))} />

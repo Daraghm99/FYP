@@ -14,6 +14,12 @@ class Scoot extends Contract {
         if (exists) {
             return JSON.stringify('Asset Exists');
         }
+        
+        // Check if the Retailer exists
+        const rexists = await this.RetailerExists(ctx, retailer)
+        if(!rexists) {
+        	return JSON.stringify('No Retailer Found');
+        }
        
         // Include a Status of Pending as a Retailer must Approve
         // State is set to Active on initial Request 
@@ -78,7 +84,16 @@ class Scoot extends Contract {
         if (!exists) {
             return JSON.stringify('E-Scooter Not Found');
         }
-		
+        
+        // Check the registration status of the E-Scooter
+        const assetString = await this.ReadAsset(ctx, serialNumber);
+        const asset = JSON.parse(assetString);
+        const status = asset.Status;
+        
+        if(status === 'Pending'){
+        	return JSON.stringify('Not Registered');
+        }
+        
 		const service = {
 			SID: SID,
 			SerialNumber: serialNumber,

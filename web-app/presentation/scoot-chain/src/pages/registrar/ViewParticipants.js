@@ -1,12 +1,13 @@
-import React from 'react'
-import axios from '../../api/axios'
-import Footer from '../../components/Footer'
-import RegistrarNav from './RegistrarNav'
-import UserTable from './UserTable'
+import React from 'react';
+import axios from '../../api/axios';
+import Footer from '../../components/Footer';
+import RegistrarNav from './RegistrarNav';
+import UserTable from './UserTable';
 import { useState, useEffect } from 'react';
 import { confirm } from 'react-confirm-box';
 import { toast } from 'react-toastify';
-import FilterTable from './FilterTable'
+import FilterTable from './FilterTable';
+import LHeader from '../../components/LHeader';
 
 const ViewParticipants = () => {
 
@@ -64,6 +65,7 @@ const ViewParticipants = () => {
 
   return (
     <>
+      <LHeader />
 			<RegistrarNav />
       <FilterTable filter={filter} setFilter={setFilter} />
       <UserTable users={users.filter(user => ((user.ID).toLowerCase()).includes(filter.toLowerCase()))} handleRemoveClick={handleRemoveClick} />

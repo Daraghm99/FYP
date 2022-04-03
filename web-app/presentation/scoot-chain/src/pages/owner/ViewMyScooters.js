@@ -7,6 +7,7 @@ import axios from '../../api/axios';
 import { confirm } from 'react-confirm-box';
 import { toast } from 'react-toastify';
 import FilterScooters from './FilterScooters';
+import LHeader from '../../components/LHeader';
 
 const ViewMyScooters = () => {
 
@@ -51,7 +52,6 @@ const ViewMyScooters = () => {
               'authToken': token
             }
           });
-          console.log('here');
           const scooterList = scooters.filter((scooter) => scooter.SerialNumber !== serialNumber);
           setScooters(scooterList);
           toast.success('E-Scooter Transferred');
@@ -85,6 +85,8 @@ const ViewMyScooters = () => {
             'authToken': token
           }
         });
+        const scooterList = scooters.filter((scooter) => scooter.SerialNumber !== serialNumber);
+        setScooters(scooterList);
         toast.success('E-Scooter Marked as Stolen');
       } catch (err) {
         console.log(err);
@@ -94,6 +96,7 @@ const ViewMyScooters = () => {
 
   return (
     <>
+      <LHeader />
       <OwnerNav />
       <FilterScooters filter={filter} setFilter={setFilter} />
       <TableList scooters={scooters.filter(scooter => ((scooter.SerialNumber).toLowerCase()).includes(filter.toLowerCase()))} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
