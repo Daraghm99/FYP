@@ -137,6 +137,7 @@ describe('ScootChain Unit Tests', () => {
             SID: '987TGH',
             SerialNumber: '98765',
             ServiceType: 'Repair',
+            ServiceDate: '2022-03-17',
             ServiceDescription: 'Repaired',
         };
 
@@ -144,6 +145,7 @@ describe('ScootChain Unit Tests', () => {
             SID: '987T',
             SerialNumber: '98765',
             ServiceType: 'Upgrade',
+            ServiceDate: '2022-03-17',
             ServiceDescription: 'Upgraded',
         };
     });
@@ -153,6 +155,8 @@ describe('ScootChain Unit Tests', () => {
         it('Should Return success on requestAssetRegistration', async () => {
 
             let scoot = new Scoot();
+            // Create a Retailer to send the request to
+            await scoot.createUser(transactionContext, retailer1.ID, retailer1.Name, retailer1.Password, retailer1.Role);
             await scoot.requestAssetRegistration(transactionContext, request1.SerialNumber, request1.Manufacturer, request1.Model, request1.Owner, request1.Retailer);
             let ret = JSON.parse((await chaincodeStub.getState(request1.SerialNumber)).toString());
             expect(ret).to.eql(request1);
@@ -161,6 +165,7 @@ describe('ScootChain Unit Tests', () => {
         it('Should Return Asset Exists on requestAssetRegistration', async () => {
             
             let scoot = new Scoot();
+            await scoot.createUser(transactionContext, retailer1.ID, retailer1.Name, retailer1.Password, retailer1.Role);
             await scoot.requestAssetRegistration(transactionContext, request1.SerialNumber, request1.Manufacturer, request1.Model, request1.Owner, request1.Retailer);
 
             // Requesting Registration with an E-Scooter of the same Serial Number
@@ -174,6 +179,8 @@ describe('ScootChain Unit Tests', () => {
         it('Should Return Success on queryMyRequests', async () => {
 
             let scoot = new Scoot();
+            // Create the retailer to send requests to
+            await scoot.createUser(transactionContext, retailer1.ID, retailer1.Name, retailer1.Password, retailer1.Role);
             // Create 3 different requests to the same retailer
             await scoot.requestAssetRegistration(transactionContext, request1.SerialNumber, request1.Manufacturer, request1.Model, request1.Owner, request1.Retailer);
             await scoot.requestAssetRegistration(transactionContext, '5GHTY54', request1.Manufacturer, request1.Model, request1.Owner, request1.Retailer);
@@ -253,7 +260,7 @@ describe('ScootChain Unit Tests', () => {
             await scoot.createUser(transactionContext, owner1.ID, owner1.Name, owner1.Password, owner1.Role);
             await scoot.createAsset(transactionContext, scooter1.SerialNumber, scooter1.Manufacturer, scooter1.Model, scooter1.Owner, scooter1.Retailer);
             // Create the service
-            await scoot.createAssetService(transactionContext, service.SID, service.SerialNumber, service.ServiceType, service.ServiceDescription);
+            await scoot.createAssetService(transactionContext, service.SID, service.SerialNumber, service.ServiceType, service.ServiceDate, service.ServiceDescription);
             let ret = JSON.parse((await chaincodeStub.getState(service.SID)).toString());
             expect(ret).to.eql(service);
         });
@@ -261,7 +268,7 @@ describe('ScootChain Unit Tests', () => {
         it('Should Return E-Scooter Not Found on createAssetService', async () => {
             let scoot = new Scoot();
             // Create the service without registering an E-Scooter to a User
-            const result = await scoot.createAssetService(transactionContext, service.SID, service.SerialNumber, service.ServiceType, service.ServiceDescription);
+            const result = await scoot.createAssetService(transactionContext, service.SID, service.SerialNumber, service.ServiceType, service.ServiceDate, service.ServiceDescription);
             expect(JSON.parse(result)).to.eql('E-Scooter Not Found');
         });
     });
@@ -282,8 +289,8 @@ describe('ScootChain Unit Tests', () => {
             await scoot.createUser(transactionContext, owner1.ID, owner1.Name, owner1.Password, owner1.Role);
             await scoot.createAsset(transactionContext, scooter1.SerialNumber, scooter1.Manufacturer, scooter1.Model, scooter1.Owner, scooter1.Retailer);
             // Create two service on the E-Scooter
-            await scoot.createAssetService(transactionContext, service.SID, scooter1.SerialNumber, service.ServiceType, service.ServiceDescription);
-            await scoot.createAssetService(transactionContext, service1.SID, scooter1.SerialNumber, service1.ServiceType, service1.ServiceDescription);
+            await scoot.createAssetService(transactionContext, service.SID, scooter1.SerialNumber, service.ServiceType, service.ServiceDate, service.ServiceDescription);
+            await scoot.createAssetService(transactionContext, service1.SID, scooter1.SerialNumber, service1.ServiceType, service.ServiceDate, service1.ServiceDescription);
 
             let ret = await scoot.queryAssetServiceHistory(transactionContext, scooter1.SerialNumber);
             ret = JSON.parse(ret);
@@ -358,6 +365,7 @@ describe('ScootChain Unit Tests', () => {
 
             let scoot = new Scoot();
             // Create a Request
+            await scoot.createUser(transactionContext, retailer1.ID, retailer1.Name, retailer1.Password, retailer1.Role);
             await scoot.requestAssetRegistration(transactionContext, request1.SerialNumber, request1.Manufacturer, request1.Model, request1.Owner, request1.Retailer);
             await scoot.approveAssetRegistration(transactionContext, request1.SerialNumber);
             let ret = JSON.parse((await chaincodeStub.getState(request1.SerialNumber)));
@@ -381,6 +389,7 @@ describe('ScootChain Unit Tests', () => {
 
             let scoot = new Scoot();
             // Create an E-Scooter Request
+            await scoot.createUser(transactionContext, retailer1.ID, retailer1.Name, retailer1.Password, retailer1.Role);
             await scoot.requestAssetRegistration(transactionContext, request1.SerialNumber, request1.Manufacturer, request1.Model, request1.Owner, request1.Retailer);
             // Reject the request
             await scoot.rejectAssetRegistration(transactionContext, request1.SerialNumber);
@@ -494,15 +503,6 @@ describe('ScootChain Unit Tests', () => {
             let scoot = new Scoot();
             const result = await scoot.queryUser(transactionContext, owner1.ID);
             expect(JSON.parse(result)).to.eql('User Not Found');
-        });
-
-        it('Should Return User Found on queryUser', async () => {
-
-            let scoot = new Scoot();
-
-            await scoot.createUser(transactionContext, owner1.ID, owner1.Name, owner1.Password, owner1.Role);
-            const result = await scoot.queryUser(transactionContext, owner1.ID);
-            expect(JSON.parse(result)).to.eql('User Found');
         });
     });
 
