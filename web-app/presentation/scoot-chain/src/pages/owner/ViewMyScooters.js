@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 import { confirm } from 'react-confirm-box';
 import { toast } from 'react-toastify';
+import FilterScooters from './FilterScooters';
 
 const ViewMyScooters = () => {
 
   const [scooters, setScooters] = useState([]);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const fetchScooters = async () => {
@@ -93,7 +95,8 @@ const ViewMyScooters = () => {
   return (
     <>
       <OwnerNav />
-      <TableList scooters={scooters} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
+      <FilterScooters filter={filter} setFilter={setFilter} />
+      <TableList scooters={scooters.filter(scooter => ((scooter.SerialNumber).toLowerCase()).includes(filter.toLowerCase()))} handleTransferClick={handleTransferClick} handleStolenClick={handleStolenClick}/>
       <Footer />
     </>
   )

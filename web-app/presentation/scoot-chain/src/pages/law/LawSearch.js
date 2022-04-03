@@ -36,7 +36,7 @@ const LawSearch = () => {
 	}
 
   return (
-    <div className='lawSearch'>
+    <div className='lsearch-container'>
 			<form className='reviewForm' onSubmit={handleLawSearch}>
         <input 
             type='text'

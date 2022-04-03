@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from '../../api/axios';
 import { toast } from 'react-toastify';
 import TransactionTable from './TransactionTable';
+import { FaSearch } from 'react-icons/fa';
 
 const TransactionHistory = () => {
 
@@ -32,7 +33,9 @@ const TransactionHistory = () => {
 	}
 
   return (
-    <div className='serviceHistory'>
+    <div className='search-container'>
+			<h1>View all E-Scooter Transactions</h1>
+			<p>Enter its Serial Number below to view the complete lifecycle</p>
 			<form className='historyForm' onSubmit={handleTransactionHistory}>
         <input 
             type='text'
@@ -45,7 +48,7 @@ const TransactionHistory = () => {
 					id='searchButton'
 					type='submit'
 				>
-					Submit
+					<FaSearch />
 				</button>
 			</form>
 			{<TransactionTable transactions={transactions} />}

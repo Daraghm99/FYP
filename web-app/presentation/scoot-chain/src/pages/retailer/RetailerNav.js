@@ -5,11 +5,13 @@ import Logout from '../../components/Logout';
 const RetailerNav = () => {
     return (
         <div className='Nav'>
-            <ul>
-                <li><Link to='/registerScooter'>Register E-Scooter</Link></li>
-                <li><Link to='/viewRequests'>View Pending Requests</Link></li>
-                <Logout />
-            </ul>
+            <div className='left'>
+                <ul>
+                    <li><Link to='/registerScooter'>Register E-Scooter</Link></li>
+                    <li><Link to='/viewRequests'>View Pending Requests</Link></li>
+                </ul>
+            </div>
+            <div className='right'><Logout /></div>
         </div>
       )
 }

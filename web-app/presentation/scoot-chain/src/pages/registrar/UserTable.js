@@ -4,8 +4,6 @@ import UserRow from './UserRow'
 const UserTable = ({ users, handleRemoveClick }) => {
   return (
     <div className='table-container'>
-      <h1>All Participants on the Network</h1>
-      <p>Click the Remove button beside a User to remove them from the Network</p>
       <table className='scooterTable'>
         <thead>
           <tr>

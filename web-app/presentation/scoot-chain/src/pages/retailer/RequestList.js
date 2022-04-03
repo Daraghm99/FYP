@@ -4,8 +4,6 @@ import RequestItem from './RequestItem'
 const RequestList = ({ requests, handleApproveClick, handleRejectClick }) => {
   return (
     <div className='table-container'>
-      <h1>Pending E-Scooter Registration Requests</h1>
-      <p>Click the Buttons below to either Approve or Reject a Request</p>
       <table className='requestTable'>
         <thead>
           <tr>

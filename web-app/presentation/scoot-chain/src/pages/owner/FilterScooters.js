@@ -1,10 +1,11 @@
 import React from 'react'
 
-const FilterTable = ({ filter, setFilter }) => {
+const FilterScooters = ({  filter, setFilter }) => {
   return (
     <div className='fsearch-container'>
-      <h1>All Participants on the Network</h1>
-      <p>Click the Remove button beside a User to remove them from the Network</p>
+      <h1>Your E-scooters</h1>
+      <p>Click the button below to tranfer ownership of your E-scooter</p>
+      <p>Has your E-Scooter been stolen? Click the button below to mark it as stolen.</p>
       <form onSubmit={(e) => e.preventDefault()}>
           <input 
               type='text'
@@ -14,8 +15,8 @@ const FilterTable = ({ filter, setFilter }) => {
               onChange={(e) => setFilter(e.target.value)}
           />
       </form>
-    </div>
+    </div>    
   )
 }
 
-export default FilterTable
+export default FilterScooters

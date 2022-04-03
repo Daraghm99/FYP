@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import axios from '../../api/axios';
 import ServiceTable from './ServiceTable';
+import { FaSearch } from 'react-icons/fa';
 
 const ServiceHistory = () => {
 
@@ -32,6 +33,8 @@ const ServiceHistory = () => {
 
   return (
     <div className='search-container'>
+			<h1>Purchasing an E-Scooter?</h1>
+			<p>Enter its Serial Number below to view its Service History</p>
 			<form className='historyForm' onSubmit={handleServiceHistory}>
         <input 
             type='text'
@@ -44,7 +47,7 @@ const ServiceHistory = () => {
 					id='searchButton'
 					type='submit'
 				>
-					Submit
+					<FaSearch />
 				</button>
 			</form>
 

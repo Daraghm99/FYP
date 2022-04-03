@@ -40,57 +40,59 @@ const UserForm = () => {
 	}
 
   return (
-    <form className='requestForm' onSubmit={handleUserSubmit}>
-			<h1>User Registration Form</h1>
-			<p>Register a User onto the Blockchain Network</p>
-			<p>Enter All Details to Succesfully Register the User</p>
-			<label htmlFor='email'>Email Address:</label>
-				<input 
-					type='text' 
-					id='email' 
-					placeholder='Enter Users Email Address' 
-					onChange={(e) => setEmail(e.target.value)}
-					value={email} 
-					required 
-				/>
-			<label htmlFor='password'>Password:</label>
-				<input 
-					type='password' 
-					id='password' 
-					placeholder='Enter Users Password' 
-					onChange={(e) => setPassword(e.target.value)}
-					value={password} 
-					required 
-				/>
-			<label htmlFor='name'>Name:</label>
-				<input 
-					type='text' 
-					id='name' 
-					placeholder='Enter Users Name' 
-					onChange={(e) => setName(e.target.value)}
-					value={name} 
-					required 
-				/>
-			<label htmlFor='role'>Role:</label>
-				<select 
-					name='role'
-					id='role'
-					onChange={(e) => setRole(e.target.value)}
-					value={role}
-					required
+		<div className='form-container'>
+			<form className='requestForm' onSubmit={handleUserSubmit}>
+				<h1>User Registration Form</h1>
+				<p>Register a User onto the Blockchain Network</p>
+				<p>Enter All Details to Succesfully Register the User</p>
+				<label htmlFor='email'>Email Address:</label>
+					<input 
+						type='text' 
+						id='email' 
+						placeholder='Enter Users Email Address' 
+						onChange={(e) => setEmail(e.target.value)}
+						value={email} 
+						required 
+					/>
+				<label htmlFor='password'>Password:</label>
+					<input 
+						type='password' 
+						id='password' 
+						placeholder='Enter Users Password' 
+						onChange={(e) => setPassword(e.target.value)}
+						value={password} 
+						required 
+					/>
+				<label htmlFor='name'>Name:</label>
+					<input 
+						type='text' 
+						id='name' 
+						placeholder='Enter Users Name' 
+						onChange={(e) => setName(e.target.value)}
+						value={name} 
+						required 
+					/>
+				<label htmlFor='role'>Role:</label>
+					<select 
+						name='role'
+						id='role'
+						onChange={(e) => setRole(e.target.value)}
+						value={role}
+						required
+					>
+						<option value='owner'>Owner</option>
+						<option value='retailer'>Retailer</option>
+						<option value='servicer'>Servicer</option>
+						<option value='law'>Law Enforcement</option>
+					</select>
+					
+				<button
+					id='submitButton'
 				>
-					<option value='owner'>Owner</option>
-					<option value='retailer'>Retailer</option>
-					<option value='servicer'>Servicer</option>
-					<option value='law'>Law Enforcement</option>
-				</select>
-				
-			<button
-				id='submitButton'
-			>
-				Create User	<FaPlus />
-			</button>
-    </form>
+					Create User	<FaPlus />
+				</button>
+			</form>
+		</div>
   )
 }
 

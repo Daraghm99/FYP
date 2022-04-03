@@ -4,8 +4,6 @@ import StolenItem from './StolenItem'
 const StolenTable = ({ stolenScooters }) => {
   return (
     <div className='table-container'>
-      <h1>All E-Scooters Marked as Stolen on the Network</h1>
-      <p>Review these Stolen Assets</p>
       <table className='requestTable'>
         <thead>
           <tr>

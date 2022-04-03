@@ -14,13 +14,15 @@ const Logout = () => {
 	}
 
   return (
-    <button 
-			id='logoutButton'
-			type='submit'
-			onClick={handleLogOutClick}
-		>
-			Log Out
-		</button>
+		<div className='logout-container'>
+			<button 
+				id='logoutButton'
+				type='submit'
+				onClick={handleLogOutClick}
+			>
+				Log Out
+			</button>
+		</div>
   )
 }
 

@@ -43,9 +43,10 @@ const RegisterForm = () => {
 	}
 
   return (
+		<div className='form-container'>
+			<h1>E-Scooter Registration Form</h1>
+			<p>Enter All Details of the E-Scooter you are Registering</p>
 			<form className='registerForm' onSubmit={handleRegister}>
-				<h1>E-Scooter Registration Form</h1>
-				<p>Enter All Details of the E-Scooter you are Registering</p>
 				<label htmlFor='serialNumber'>SerialNumber:</label>
 					<input 
 						type='text' 
@@ -87,8 +88,8 @@ const RegisterForm = () => {
 					>
 						Register <FaPlus />	
 					</button>
-				
 			</form>
+		</div>
   )
 }
 

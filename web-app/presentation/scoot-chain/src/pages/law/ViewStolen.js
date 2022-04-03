@@ -2,7 +2,6 @@ import React from 'react'
 import Footer from '../../components/Footer'
 import LawNav from './LawNav'
 import StolenTable from './StolenTable'
-import LawSearch from './LawSearch'
 import { useState, useEffect } from 'react';
 import axios from '../../api/axios';
 import FilterStolen from './FilterStolen'
@@ -35,7 +34,6 @@ const ViewStolen = () => {
   return (
     <>
 			<LawNav />
-      <LawSearch />
       <FilterStolen filter={filter} setFilter={setFilter} />
 			<StolenTable stolenScooters={stolenScooters.filter(stolenScooter => ((stolenScooter.SerialNumber).toLowerCase()).includes(filter.toLowerCase()))} />
 			<Footer />

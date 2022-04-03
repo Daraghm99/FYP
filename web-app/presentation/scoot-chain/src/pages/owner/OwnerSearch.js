@@ -34,9 +34,7 @@ const OwnerSearch = () => {
 	
   return (
 	
-    <div className='search-container'>
-			{/*<h1>Purchasing an E-Scooter?</h1>
-			<p>Check its Status Below</p>*/}
+    <div className='lsearch-container'>
 			<form className='requestForm' onSubmit={handleOwnerSearch}>
         <input 
             type='text'
