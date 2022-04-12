@@ -33,7 +33,7 @@ const RegisterForm = () => {
 			setOwner('');
 		} catch (err) {
 			if(err.response?.status === 405){
-				toast.error('E-Scooter Already Recorded');
+				toast.error('E-Scooter Already Registered');
 			} else if (err.response?.status === 406){
 				toast.error('Owner not Found');
 			} else if (err.response?.status === 407){
@@ -45,7 +45,7 @@ const RegisterForm = () => {
   return (
 		<div className='form-container'>
 			<h1>E-Scooter Registration Form</h1>
-			<p>Enter All Details of the E-Scooter you are Registering</p>
+			<p>Enter All Details of the E-Scooter you are Registering!</p>
 			<form className='registerForm' onSubmit={handleRegister}>
 				<label htmlFor='serialNumber'>SerialNumber:</label>
 					<input 
