@@ -9,8 +9,8 @@ const OwnerNav = () => {
       <div className='left'>
         <ul>
             <li><Link to='/createRequest'>Create Request</Link></li>
-            <li><Link to='/viewScooters'>View My Scooters</Link></li>
-            <li><Link to='/viewScooterHistory'>View Scooter History</Link></li>
+            <li><Link to='/viewScooters'>View My E-Scooters</Link></li>
+            <li><Link to='/viewScooterHistory'>View E-Scooter History</Link></li>
             <OwnerSearch />
         </ul>
       </div>

@@ -3,8 +3,8 @@ import React from 'react'
 const FilterScooters = ({  filter, setFilter }) => {
   return (
     <div className='fsearch-container'>
-      <h1>Your E-scooters</h1>
-      <p>Click the button below to tranfer ownership of your E-scooter</p>
+      <h1>Your E-Scooters</h1>
+      <p>Click the button below to tranfer ownership of your E-Scooter</p>
       <p>Has your E-Scooter been stolen? Click the button below to mark it as stolen.</p>
       <form onSubmit={(e) => e.preventDefault()}>
           <input 

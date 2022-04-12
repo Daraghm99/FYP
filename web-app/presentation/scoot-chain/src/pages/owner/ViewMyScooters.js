@@ -59,7 +59,9 @@ const ViewMyScooters = () => {
         } catch (err) {
           if(err.response?.status === 405){
             toast.error('User Not Found');
-          } else if (err.response?.status){
+          } else if (err.response?.status === 406){
+            toast.error('Cannot Transfer to yourself');
+          } else if (err.response?.status === 407){
             toast.error('Transfer Forbidden');
           }
         }

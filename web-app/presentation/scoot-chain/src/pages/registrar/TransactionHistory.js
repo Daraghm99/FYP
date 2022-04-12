@@ -34,8 +34,8 @@ const TransactionHistory = () => {
 
   return (
     <div className='search-container'>
-			<h1>View all E-Scooter Transactions</h1>
-			<p>Enter its Serial Number below to view the complete lifecycle</p>
+			<h1>View the History of any Active E-Scooter on the Network</h1>
+			<p>Simply Enter its Serial Number below to view its complete history!</p>
 			<form className='historyForm' onSubmit={handleTransactionHistory}>
         <input 
             type='text'

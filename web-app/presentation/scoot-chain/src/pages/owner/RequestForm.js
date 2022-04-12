@@ -43,7 +43,7 @@ const RequestForm = () => {
   return (
 		<div className='form-container'>
 			<h1>E-Scooter Request Registration Form</h1>
-			<p>Enter details relating to your E-Scooter!</p>
+			<p>Enter All Details of the E-Scooter you wish to Register!</p>
 			<form className='requestForm' onSubmit={handleRequestSubmit}>
 				<label htmlFor='serialNumber'>SerialNumber:</label>
 					<input 

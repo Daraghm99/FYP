@@ -180,7 +180,7 @@ class Scoot extends Contract {
                 record = strValue;
             }
             // Retrieve all Records for the owner passed in 
-            if(record.Owner === owner && record.Status === 'Registered'){
+            if(record.Owner === owner && record.Status === 'Registered' && record.State === 'Active'){
                 allResults.push(record);
             }
             result = await iterator.next();
@@ -218,6 +218,13 @@ class Scoot extends Contract {
         const exists = await this.UserExists(ctx, newOwner);
         if(!exists){
         	return JSON.stringify('User Error');
+        }
+        
+        // Check the role of the owner
+        const assetJSON = await ctx.stub.getState(newOwner);
+        const user = JSON.parse(assetJSON);
+        if(user.Role !== 'owner'){
+            return JSON.stringify('User Role Error');
         }
 
         // If the E-Scooter exists then retrieve the Asset

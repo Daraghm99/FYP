@@ -94,6 +94,8 @@ export const transferScooter = async (req, res) => {
             res.status(405).send('User Not Found');
         } else if (JSON.parse(result) === 'Self Transfer'){
             res.status(406).send('Self Transfer');
+        } else if(JSON.parse(result) === 'User Role Error'){
+            res.status(407).send('User Role Error');
         } else{
             res.status(200).send(JSON.parse(result));
         }

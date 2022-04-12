@@ -8,7 +8,7 @@ const RegistrarNav = () => {
       <div className='left'>
         <ul>
             <li><Link to='/createUser'>Create User</Link></li>
-            <li><Link to='/viewParticipants'>View Participants</Link></li>
+            <li><Link to='/viewParticipants'>View All Participants</Link></li>
             <li><Link to='/viewHistory'>View Transaction History</Link></li>
         </ul>
       </div>
