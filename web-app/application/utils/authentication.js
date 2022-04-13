@@ -5,8 +5,8 @@ import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
 
 export const registerUser = async (id) => {
+
     try {
-        console.log('In Register User');
         // load the network configuration
         const ccpPath = join(process.cwd(), './connection/connection-org1.json');
         const ccp = JSON.parse(readFileSync(ccpPath, 'utf8'));
@@ -18,24 +18,12 @@ export const registerUser = async (id) => {
         // Create a new file system based wallet for managing identities.
         const wallet = await Wallets.newFileSystemWallet(process.env.WALLET_PATH);
 
-        // Check to see if we've already enrolled the user.
-        const userIdentity = await wallet.get(id);
-        if (userIdentity) {
-            console.log('An identity for the user already exists in the wallet');
-            return;
-        }
-
         // Check to see if we've already enrolled the admin user.
-        const adminIdentity = await wallet.get('admin');
-        if (!adminIdentity) {
-            console.log('An identity for the admin user "admin" does not exist in the wallet');
-            console.log('Run the enrollAdmin.js application before retrying');
-            return;
-        }
+        const adminIdentity = await wallet.get('registrar');
 
         // build a user object for authenticating with the CA
         const provider = wallet.getProviderRegistry().getProvider(adminIdentity.type);
-        const adminUser = await provider.getUserContext(adminIdentity, 'admin');
+        const adminUser = await provider.getUserContext(adminIdentity, 'registrar');
 
         // Register the user, enroll the user, and import the new identity into the wallet.
         const secret = await ca.register({
