@@ -2,13 +2,10 @@ import React from 'react'
 import {  useState } from 'react';
 import axios from '../api/axios';
 import jwt_decode from 'jwt-decode';
-import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Login = () => {
-
-	const { setAuth } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -35,8 +32,6 @@ const Login = () => {
 			
 			// Check the users role which is stored in the JWT 
 			const role = decoded.Role;
-			const name = decoded.Name;
-			setAuth({ email, name, role, authToken });
 
 			// Set the JWT in Local Storage
 			localStorage.setItem('authToken', authToken);
